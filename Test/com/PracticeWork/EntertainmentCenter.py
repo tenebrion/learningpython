@@ -3,10 +3,12 @@ Created on Feb 25, 2016
 
 @author: michael.f.koegel
 '''
+from com.PracticeWork import fresh_tomatoes
 """
 Working with media.py
 """
-import media
+import media #need to figure out why this won't reference my 'media.py file)
+import fresh_tomatoes #need to figure out why this won't reference the 'fresh_tomatoes.py' file
 
 toy_story = media.Movie("Toy Story",
                         "Woody (Tom Hanks), a good-hearted cowboy doll who belongs to a young boy named Andy (John Morris), \
@@ -14,13 +16,47 @@ toy_story = media.Movie("Toy Story",
                          action figure. Even worse, the arrogant Buzz thinks he's a real spaceman on a mission to return to his home planet.\
                           When Andy's family moves to a new house, Woody and Buzz must escape the clutches of maladjusted\
                            neighbor Sid Phillips (Erik von Detten) and reunite with their boy.",
-                        "http://upload.wikimedia.org/wikipedia/en/1/13/Toy_Story.jpg",
+                        "https://upload.wikimedia.org/wikipedia/en/1/13/Toy_Story.jpg",
                         "https://youtu.be/KYz2wyBy3kc")
 #print (toy_story.storyline)
 
 avatar = media.Movie("Avatar",
-                     "A marine on an alien planet",
-                     "http://upload.wikimedia.com/wikipedia/id/b/b0/Avatar-Teaser-Poster.jpg",
-                     "https://www.youtube.com/watch?v=-9ceBgWV8io")
+                     "On the lush alien world of Pandora live the Na'vi, beings who appear primitive but are highly evolved.\
+                      Because the planet's environment is poisonous, human/Na'vi hybrids, called Avatars, must link to human\
+                       minds to allow for free movement on Pandora. Jake Sully (Sam Worthington), a paralyzed former Marine,\
+                        becomes mobile again through one such Avatar and falls in love with a Na'vi woman (Zoe Saldana).\
+                         As a bond with her grows, he is drawn into a battle for the survival of her world.",
+                     "https://upload.wikimedia.org/wikipedia/en/b/b0/Avatar-Teaser-Poster.jpg",
+                     "https://youtu.be/5PSNL1qE6VY")
 #print(avatar.storyline)
-avatar.show_trailer()
+#avatar.show_trailer()
+
+die_hard = media.Movie("Die Hard",
+                     "New York City policeman John McClane (Bruce Willis) is visiting his estranged wife (Bonnie Bedelia) and\
+                      two daughters on Christmas Eve. He joins her at a holiday party in the headquarters of the Japanese-owned\
+                       business she works for. But the festivities are interrupted by a group of terrorists who take over the\
+                        exclusive high-rise, and everyone in it. Very soon McClane realizes that there's no one to save the hostages -- but him.",
+                     "https://en.wikipedia.org/wiki/Die_Hard#/media/File:Die_hard.jpg",
+                     "https://youtu.be/2TQ-pOvI6Xo")
+
+deadpool = media.Movie("Deadpool",
+                     "Wade Wilson (Ryan Reynolds) is a former Special Forces operative who now works as a mercenary. His world\
+                      comes crashing down when evil scientist Ajax (Ed Skrein) tortures, disfigures and transforms him into Deadpool.\
+                       The rogue experiment leaves Deadpool with accelerated healing powers and a twisted sense of humor. With help\
+                        from mutant allies Colossus and Negasonic Teenage Warhead (Brianna Hildebrand), Deadpool uses his new skills\
+                         to hunt down the man who nearly destroyed his life.",
+                     "https://en.wikipedia.org/wiki/Deadpool_(film)#/media/File:Deadpool_poster.jpg",
+                     "https://youtu.be/ZIM1HydF9UA")
+
+resident_evil = media.Movie("Resident Evil",
+                     "Based on the popular video game, Milla Jovovich and Michelle Rodriguez star as the leaders of a commando\
+                      team who must break into 'the hive', a vast underground genetics laboratory operated by the powerful Umbrella\
+                       Corporation. There, a deadly virus has been unleashed, killing the lab's personnel and resurrecting them as\
+                        the evil Un-dead. The team has just three hours to shut down the lab's supercomputer and close the facility\
+                         before the virus threatens to overrun the Earth.",
+                     "https://en.wikipedia.org/wiki/Resident_Evil_(film)#/media/File:Resident_evil_ver4.jpg",
+                     "https://youtu.be/PWUT4CXWcwQ")
+
+movies = [toy_story, avatar, die_hard, deadpool]
+
+fresh_tomatoes.open_movies_page(movies)
