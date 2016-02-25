@@ -6,7 +6,7 @@ Created on Feb 25, 2016
 """
 WOrking with media.py
 """
-from pygraphics import media
+import media
 
 toy_story = media.Movie("Toy Story",
                         "Woody (Tom Hanks), a good-hearted cowboy doll who belongs to a young boy named Andy (John Morris), \
@@ -16,4 +16,11 @@ toy_story = media.Movie("Toy Story",
                            neighbor Sid Phillips (Erik von Detten) and reunite with their boy.",
                         "http://upload.wikimedia.org/wikipedia/en/1/13/Toy_Story.jpg",
                         "https://youtu.be/KYz2wyBy3kc")
-print (toy_story.storyline)
+#print (toy_story.storyline)
+
+avatar = media.Movie("Avatar",
+                     "A marine on an alien planet",
+                     "http://upload.wikimedia.com/wikipedia/id/b/b0/Avatar-Teaser-Poster.jpg",
+                     "https://www.youtube.com/watch?v=-9ceBgWV8io")
+#print(avatar.storyline)
+avatar.show_trailer()

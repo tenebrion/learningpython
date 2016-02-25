@@ -3,6 +3,7 @@ Created on Feb 25, 2016
 
 @author: michael.f.koegel
 '''
+import webbrowser
 """
 Building a simple website that shows movie pictures, plays trailers,
 shows reviews, etc.
@@ -13,3 +14,12 @@ class Movie():
         self.storyline = movie_storyline
         self.poster_image_url = poster_image
         self.trailer_youtube_url = trailer_youtube
+        
+    def show_trailer(self):
+        webbrowser.open(self.trailer_youtube_url)
+    
+    def show_picture(self):
+        webbrowser.open(self.poster_image_url)
+    
+    def show_title(self):
+        print(self.title)
