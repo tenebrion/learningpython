@@ -14,11 +14,11 @@ score = {"a": 1, "c": 3, "b": 3, "e": 1, "d": 2, "g": 2,
          "x": 8, "z": 10}
 
 def scrabble_score(word):
-    word = word.lower()
-    total = 0
+    word = word.lower() #making sure all words are lowercase
+    total = 0 #initializing the total with a value of 0
 
-    for char in word:
-        total += score[char]
-    print(total)
+    for char in word: #iterating through all the words in our dictionary
+        total += score[char] #adding up the character values
+    print(total) #printing out our total
 
-scrabble_score("quiddich")
+scrabble_score("quiddich") #initializing the function

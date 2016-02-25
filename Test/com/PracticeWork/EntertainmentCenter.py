@@ -4,7 +4,7 @@ Created on Feb 25, 2016
 @author: michael.f.koegel
 '''
 """
-WOrking with media.py
+Working with media.py
 """
 import media
 
