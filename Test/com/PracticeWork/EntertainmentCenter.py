@@ -68,3 +68,5 @@ star_trek = media.Movie("Star Trek",
 movies = [toy_story, avatar, die_hard, deadpool, resident_evil, star_trek]
 
 fresh_tomatoes.open_movies_page(movies)
+
+#print(media.Movie.VALID_RATINGS)
