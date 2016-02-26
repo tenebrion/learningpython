@@ -3,12 +3,11 @@ Created on Feb 25, 2016
 
 @author: michael.f.koegel
 '''
-from com.PracticeWork import fresh_tomatoes
 """
 Working with media.py
 """
-import media #need to figure out why this won't reference my 'media.py file)
-import fresh_tomatoes #need to figure out why this won't reference the 'fresh_tomatoes.py' file
+from com.PracticeWork import media #need to figure out why this won't reference my 'media.py file)
+from com.PracticeWork import fresh_tomatoes #need to figure out why this won't reference the 'fresh_tomatoes.py' file
 
 toy_story = media.Movie("Toy Story",
                         "Woody (Tom Hanks), a good-hearted cowboy doll who belongs to a young boy named Andy (John Morris), \
@@ -36,7 +35,7 @@ die_hard = media.Movie("Die Hard",
                       two daughters on Christmas Eve. He joins her at a holiday party in the headquarters of the Japanese-owned\
                        business she works for. But the festivities are interrupted by a group of terrorists who take over the\
                         exclusive high-rise, and everyone in it. Very soon McClane realizes that there's no one to save the hostages -- but him.",
-                     "https://en.wikipedia.org/wiki/Die_Hard#/media/File:Die_hard.jpg",
+                     "https://upload.wikimedia.org/wikipedia/en/7/7e/Die_hard.jpg",
                      "https://youtu.be/2TQ-pOvI6Xo")
 
 deadpool = media.Movie("Deadpool",
@@ -45,7 +44,7 @@ deadpool = media.Movie("Deadpool",
                        The rogue experiment leaves Deadpool with accelerated healing powers and a twisted sense of humor. With help\
                         from mutant allies Colossus and Negasonic Teenage Warhead (Brianna Hildebrand), Deadpool uses his new skills\
                          to hunt down the man who nearly destroyed his life.",
-                     "https://en.wikipedia.org/wiki/Deadpool_(film)#/media/File:Deadpool_poster.jpg",
+                     "https://upload.wikimedia.org/wikipedia/en/4/46/Deadpool_poster.jpg",
                      "https://youtu.be/ZIM1HydF9UA")
 
 resident_evil = media.Movie("Resident Evil",
@@ -54,9 +53,18 @@ resident_evil = media.Movie("Resident Evil",
                        Corporation. There, a deadly virus has been unleashed, killing the lab's personnel and resurrecting them as\
                         the evil Un-dead. The team has just three hours to shut down the lab's supercomputer and close the facility\
                          before the virus threatens to overrun the Earth.",
-                     "https://en.wikipedia.org/wiki/Resident_Evil_(film)#/media/File:Resident_evil_ver4.jpg",
+                     "https://upload.wikimedia.org/wikipedia/en/a/a1/Resident_evil_ver4.jpg",
                      "https://youtu.be/PWUT4CXWcwQ")
 
-movies = [toy_story, avatar, die_hard, deadpool]
+star_trek = media.Movie("Star Trek",
+                     "Aboard the USS Enterprise, the most-sophisticated starship ever built, a novice crew embarks on its maiden voyage.\
+                      Their path takes them on a collision course with Nero (Eric Bana), a Romulan commander whose mission of\
+                       vengeance threatens all mankind. If humanity would survive, a rebellious young officer named James T. Kirk (Chris Pine)\
+                        and a coolly logical Vulcan named Spock (Zachary Quinto) must move beyond their rivalry and find a way\
+                         to defeat Nero before it is too late.",
+                     "https://upload.wikimedia.org/wikipedia/en/2/29/Startrekposter.jpg",
+                     "https://youtu.be/iGAHnZ555nI")
+
+movies = [toy_story, avatar, die_hard, deadpool, resident_evil, star_trek]
 
 fresh_tomatoes.open_movies_page(movies)

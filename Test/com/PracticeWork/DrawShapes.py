@@ -13,10 +13,10 @@ def drawSquare(someTurtle): #creating a function for drawing a square
         someTurtle.forward(100) #I want the turtle object to move 100 pixels
         someTurtle.right(90) #I want the turtle to turn in a 90 degree angle
 
-def drawTriangle(someTurtle): #creating a function to draw a tringle
+def drawTriangle(someTurtle): #creating a function to draw a triangle
     for i in range(1,4): #a triangle only has 3 sides so the range should only be 3
         someTurtle.forward(100) #I want the turtle to take 100 pixel steps forward
-        someTurtle.left(120) #I want the turtle to take 120 dgree turns to make a proper triangle
+        someTurtle.left(120) #I want the turtle to take 120 degree turns to make a proper triangle
 
 def drawCircle(someTurtle, size): #defining my circle function
     for i in range(1,2): #only need 1 circle made
@@ -30,7 +30,7 @@ def drawArt(): #here is where I define the board, turtles, names, etc
     mike = turtle.Turtle() #initializing my turtle
     mike.shape("turtle") #defining the shape of the turtle
     mike.color("green") #defining the color of the turtle
-    mike.speed("fastest") #seting the turtle speed
+    mike.speed("fastest") #setting the turtle speed
     
     for i in range(1,37): #in order to make a square with a circle in the center, the squares have to go around 36 times
         drawSquare(mike) #passing the turtle mike to the square function
@@ -43,7 +43,7 @@ def drawArt(): #here is where I define the board, turtles, names, etc
     jeannette.speed("fastest") #setting the speed
     
     for i in range(1,37): #it takes 36 triangles to create a 360 degree circumference
-        drawTriangle(jeannette) #passing the turtle Jeannette to the triangle function
+        drawTriangle(jeannette) #passing the turtle jeannette to the triangle function
         jeannette.right(10) #need to turn at a 10 degree angle to make a 360 degree circle
     
     #creating Annabelle's turtle
