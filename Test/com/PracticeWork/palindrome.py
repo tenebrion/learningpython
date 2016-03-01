@@ -8,8 +8,14 @@ Palindrome time!
 #need to import the string features to be able to
 #find punctuation in our words / sentences
 import string
+import time
 
-#creating a function to check for palindromes
+start_time = time.time()
+
+#===============================================================================
+# Script is only set to take 1 sentence at a time.
+# Usage: palindrome("input sentence")
+#===============================================================================
 def palindrome(sentence):
     #need to remove all spaces, set the word to lower case
     sentence = sentence.lower().replace(" ", "")
@@ -29,3 +35,6 @@ def palindrome(sentence):
 #a couple print methods to test our methods.
 print(palindrome("A man, a plan, a canal: panama"))
 print(palindrome("tree, houses, are. cool'"))
+end_time = time.time()
+total_time = (end_time - start_time)
+print("Completed in %g seconds" % (total_time))
