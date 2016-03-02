@@ -18,10 +18,18 @@ print(random_num)
 for turn in range(10):
     print("Turn", turn + 1) #should print Turn 1, Turn 2, etc.
     
-    #getting additional user input
-    user_guess = int(input("Guess a number between 1 and 20: "))
-    #debug mode feature
-    print(user_guess)
+    while True:
+        try:
+            #getting additional user input
+            user_guess = int(input("Guess a number between 1 and 20: "))
+            #debug mode feature
+            print(user_guess)
+            break
+        except ValueError:
+            user_guess = int(input("Your input was not an integer. Please try again: "))
+            break
+    else:
+        break
     
     #if the guess is outside of the range, post a message
     while user_guess < 1 or user_guess > 20:
@@ -35,7 +43,7 @@ for turn in range(10):
         
         #if the user guesses the correct number on attempt 2 through 10, print a message
         if (user_guess == random_num) and (turn + 1 >= 2):
-            print("You WIN! It took you %s attempts to get the right number" % (turn + 1))
+            print("You WIN! It took you %s attempts to guess the right number" % (turn + 1))
             break
     
     #if the users guess is less than the randomly generated number, let them know
