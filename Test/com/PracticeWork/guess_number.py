@@ -16,10 +16,9 @@ debug_enabled = True
 random_num = randint(1, 20)
 
 #as long as debug_enabled is set to 'True' this section will process
-while debug_enabled:
+if debug_enabled:
     #need to print the random number
     print("Debug Mode Enabled: The random number is %s" % (random_num))
-    break
 
 #===============================================================================
 # This method is here to compare the user's guess to the randomly generated
