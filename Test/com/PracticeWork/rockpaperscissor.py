@@ -77,12 +77,16 @@ for turn in range(10):
                 user_pick = int(input("Please enter a number between 1 and 3 that correspond to rock, paper, or scissor: "))
         except ValueError:
             #if they enter text, that won't work either
-            user_pick = int(input("Please pick a number between 1 and 3 and not text: "))
+            #user_pick = int(input("Please pick a number between 1 and 3 and not text: "))
             
             #I want this section to keep processing until the user enters a valid number 1, 2, or 3
             #and not text. Not sure how to make it happen yet, but I will come back to it.
-            if user_pick != range(0,4):
-                user_pick = int(input("We can do this all day long! Just pick a number please: "))
+            while ValueError:
+                try:
+                    user_pick = int(input("We can do this all day long! Just pick a number between 1 and 3: "))
+                    break
+                except ValueError:
+                    user_pick = int(input("Really? This is how you're going to treat me? Too hard to pick a number between 1 and 3?: "))
     
     #===============================================================================
     ##if the user and computer pick the same option, there is no point
