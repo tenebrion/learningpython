@@ -11,33 +11,30 @@ Created on Mar 2, 2016
 import random
 
 #my debug option
-debug_enabled = True
+debug_enabled = False
 
 #defining a simple dictionary with rock, paper , or scissors
 guess_options = {1: "Rock", 2: "Paper", 3: "Scissors"}
-#need to randomly guess to make a competition
-comp_guess = random.choice(list(guess_options.keys()))
-
 #keeping score
 scores = {"User": 0, "Computer": 0, "Tie": 0}
-
-#only used while making the program and not for the end result
-if debug_enabled:
-    print("Random Comp Guess is %s" % (comp_guess))
+#creating rules for the game
+rules = {"Rock": "Scissors", "Scissors": "Paper", "Paper": "Rock"}
 
 #printing the list for the user.
 for items in sorted(guess_options):
     print("%s) %s" % (items, guess_options[items]))
 
 #===============================================================================
-#the goal of this section is to compare the guess_options key to rules key and
-#determine what 'beats' it. For example, if the user selects 2 (for paper), it
-#locates paper as the KEY in rules. if the computer selects the rules[value],
-#the comp wins, otherwise, the user wins.
+# the goal of this section is to compare the guess_options key to rules key and
+# determine what 'beats' it. For example, if the user selects 2 (for paper), it
+# locates paper as the KEY in rules. if the computer selects the rules[value],
+# the comp wins, otherwise, the user wins.
 #===============================================================================
-def compare_values(user, computer, dict_list):
+def compare_values(user, computer, dict_list, rules_list):
+    #do I need these dictionaries here or can I pull from the dictionaries
+    #outside the method...?
     guess_options = dict_list
-    rules = {"Rock": "Scissors", "Scissors": "Paper", "Paper": "Rock"}
+    rules = rules_list
     
     #converting user number pick to the corresponding value
     user_pick = guess_options[user]
@@ -60,11 +57,18 @@ def compare_values(user, computer, dict_list):
 
 
 #===============================================================================
-#need to get the user's input. If it's outside of our range or contains text,
-#an exception will get thrown. It will repeatedly ask for input until a valid
-#entry is present 
+# need to get the user's input. If it's outside of our range or contains text,
+# an exception will get thrown. It will repeatedly ask for input until a valid
+# entry is present 
 #===============================================================================
 for turn in range(10):
+    #need to randomly guess to make a competition
+    comp_guess = random.choice(list(guess_options.keys()))
+    
+    #only used while making the program and not for the end result
+    if debug_enabled:
+        print("Random Computer Guess is %s" % (comp_guess))
+    
     while True:
         try:
             #grab user pick
@@ -77,22 +81,15 @@ for turn in range(10):
                 user_pick = int(input("Please enter a number between 1 and 3 that correspond to rock, paper, or scissor: "))
         except ValueError:
             #if they enter text, that won't work either
-            #user_pick = int(input("Please pick a number between 1 and 3 and not text: "))
+            user_pick = int(input("Please pick a number between 1 and 3 and not text: "))
             
-            #I want this section to keep processing until the user enters a valid number 1, 2, or 3
-            #and not text. Not sure how to make it happen yet, but I will come back to it.
-            while ValueError:
-                try:
-                    user_pick = int(input("We can do this all day long! Just pick a number between 1 and 3: "))
-                    break
-                except ValueError:
-                    user_pick = int(input("Really? This is how you're going to treat me? Too hard to pick a number between 1 and 3?: "))
-    
+            while user_pick.isalpha():
+                user_pick = int(input("Again, only numbers between 1 and 3: "))
+            
     #===============================================================================
-    ##if the user and computer pick the same option, there is no point
-    #in sending the values to the function. It's a Tie game.
+    # if the user and computer pick the same option, there is no point
+    # in sending the values to the function. It's a Tie game.
     #===============================================================================
-    
     if user_pick == comp_guess:
         scores["Tie"] += 1
         print("It's a TIE game!")
@@ -101,7 +98,7 @@ for turn in range(10):
         for items in sorted(scores):
             print("%s: %s" % (items, scores[items]))
     else:
-        print(compare_values(user_pick, comp_guess, guess_options))
+        print(compare_values(user_pick, comp_guess, guess_options, rules))
         
         #printing the scores for the user.
         for items in sorted(scores):
