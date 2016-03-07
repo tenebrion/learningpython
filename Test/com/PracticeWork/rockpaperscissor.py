@@ -28,14 +28,9 @@ for items in sorted(guess_options):
 # the goal of this section is to compare the guess_options key to rules key and
 # determine what 'beats' it. For example, if the user selects 2 (for paper), it
 # locates paper as the KEY in rules. if the computer selects the rules[value],
-# the comp wins, otherwise, the user wins.
+# the computer wins, otherwise, the user wins.
 #===============================================================================
-def compare_values(user, computer, dict_list, rules_list):
-    #do I need these dictionaries here or can I pull from the dictionaries
-    #outside the method...?
-    guess_options = dict_list
-    rules = rules_list
-    
+def compare_values(user, computer):
     #converting user number pick to the corresponding value
     user_pick = guess_options[user]
     #checking the value that beats the user choice
@@ -62,6 +57,7 @@ def compare_values(user, computer, dict_list, rules_list):
 # entry is present 
 #===============================================================================
 for turn in range(10):
+    print("Turn", turn + 1) #should print Turn 1, Turn 2, etc.
     #need to randomly guess to make a competition
     comp_guess = random.choice(list(guess_options.keys()))
     
@@ -98,7 +94,7 @@ for turn in range(10):
         for items in sorted(scores):
             print("%s: %s" % (items, scores[items]))
     else:
-        print(compare_values(user_pick, comp_guess, guess_options, rules))
+        print(compare_values(user_pick, comp_guess))
         
         #printing the scores for the user.
         for items in sorted(scores):
