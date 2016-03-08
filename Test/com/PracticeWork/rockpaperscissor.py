@@ -81,6 +81,7 @@ for turn in range(10):
             
             while user_pick.isalpha():
                 user_pick = int(input("Again, only numbers between 1 and 3: "))
+            continue
             
     #===============================================================================
     # if the user and computer pick the same option, there is no point
