@@ -53,14 +53,18 @@ guessed_letters = ["a"]
 char_list = []
 user_guess = input("Please pick a letter: ")
 
-if debug:
-    print(random_word)
+def guessed(user_guess, letters):
+    for chars in letters:
+        if user_guess == chars:
+            return "You've already guessed that letter. Please try again!"
+        else:
+            guessed_letters.append(user_guess)
+            return guessed_letters
 
-for chars in guessed_letters:
-    if user_guess == chars:
-        print("You've already guessed that letter. Please try again!")
-    else:
-        guessed_letters.append(user_guess)
+#trying to replace the specific # with the letter once guessed properly
+for letter in game_board:
+    if user_guess == letter:
+        game_board[letter] = user_guess
 
 def print_game(game_board):
     print(" ".join(game_board))
@@ -79,5 +83,6 @@ def play_game(user_letter, word):
 
 print_game(game_board)
 #print(iterate_words(random_word))
+print(guessed(user_guess, guessed_letters))
 #play_game(user_guess, char_list)
 print("Currently guessed letters: %s" % (guessed_letters))
