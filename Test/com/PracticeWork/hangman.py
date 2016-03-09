@@ -6,6 +6,7 @@ Created on Mar 7, 2016
 hangman game
 
 Sample XML Response: http://www.dictionaryapi.com/products/api-collegiate-dictionary.htm
+Another option: http://www-personal.umich.edu/~jlawler/wordlist
 
 My original intention was to use dictionary's API to pull random words for my hangman
 game. However, from digging in, that may not be a feasible option since I have to pass
@@ -38,8 +39,6 @@ print(items)
 '''
 import random
 
-debug = False
-
 print("Welcome to Hangman. You get 6 attempts to figure out the word!")
 
 word_list = ["hypocrite", "bellicose", "impertinent", "dispensation",
@@ -50,7 +49,6 @@ word_list = ["hypocrite", "bellicose", "impertinent", "dispensation",
 random_word = random.choice(word_list)
 game_board = ["#" for letter in random_word]
 guessed_letters = []
-char_list = []
 
 def guessed(user_guess, letters):
     for chars in letters:
@@ -63,31 +61,39 @@ def guessed(user_guess, letters):
         guessed_letters.append(user_guess)
         return guessed_letters
 
+
 def fill_in_letter(user_guess):
     #trying to replace the specific # with the letter once guessed properly
     for i in range(len(random_word)):
         if user_guess == random_word[i]:
             game_board[i] = user_guess
+            print("We found a letter: '%s'" % (user_guess))
+        
+        #if all chars are revealed before the 6 turns are up, the user wins
+
 
 def print_game(game_board):
     print(" ".join(game_board))
 
-def iterate_words(word):
-    for char in word:
-        char_list.append(char)
-    
-    return char_list
 
-def play_game(user_letter, word):
-    for char in word:
-        if user_letter == char:
-            print("We found a letter: %s" % (user_letter))
+def play_game(user_word):
+    #going to build a section for the user to guess the entire word
+    #or finish off a word they already started. I may use this to house all
+    #the calls to the various methods already defined.
+    if user_word == random_word:
+        print('You guess the correct word. You WIN!')
+        
+def word_meaning(random_word):
+    #this section will call the dictionaryapi to define the word
+    pass
 
-while 1:
+for turn in range(6):
+    print("Turn ", turn + 1)
     print_game(game_board)
-    user_guess = input("Please pick a letter: ")
-    #print(iterate_words(random_word))
+    user_guess = (input("Please pick a letter: ")).lower()
     print(guessed(user_guess, guessed_letters))
     fill_in_letter(user_guess)
-    #play_game(user_guess, char_list)
     print("Currently guessed letters: %s" % (guessed_letters))
+
+if turn == 5:
+    print("Game Over! The correct word is '%s'" % (random_word))
