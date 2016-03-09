@@ -53,13 +53,15 @@ guessed_letters = []
 def guessed(user_guess, letters):
     for chars in letters:
         if user_guess == chars:
-            return "You've already guessed that letter. Please try again!"
+            print("You've already guessed that letter. Please try again!")
         else:
             guessed_letters.append(user_guess)
-            return guessed_letters
+            fill_in_letter(user_guess)
+            #return guessed_letters
     else:
         guessed_letters.append(user_guess)
-        return guessed_letters
+        fill_in_letter(user_guess)
+        #return guessed_letters
 
 
 def fill_in_letter(user_guess):
@@ -81,7 +83,7 @@ def play_game(user_word):
     #or finish off a word they already started. I may use this to house all
     #the calls to the various methods already defined.
     if user_word == random_word:
-        print('You guess the correct word. You WIN!')
+        print('You guessed the correct word. You WIN!')
         
 def word_meaning(random_word):
     #this section will call the dictionaryapi to define the word
@@ -89,11 +91,23 @@ def word_meaning(random_word):
 
 for turn in range(6):
     print("Turn ", turn + 1)
-    print_game(game_board)
-    user_guess = (input("Please pick a letter: ")).lower()
-    print(guessed(user_guess, guessed_letters))
-    fill_in_letter(user_guess)
+    
+    if (turn + 1) == 1:
+        user_guess = (input("Please pick a letter: ")).lower()
+    
+    if (turn + 1) > 1:
+        attempt_guess = (input("Would you like to guess the word? (y/n): ")).lower()
+        
+        if attempt_guess == "y":
+            guess_word = (input("What is your guess? : ")).lower()
+            play_game(guess_word)
+        else:
+            user_guess = (input("Please pick a letter: ")).lower()
+    
     print("Currently guessed letters: %s" % (guessed_letters))
+    print_game(game_board)
+    guessed(user_guess, guessed_letters)
+    #fill_in_letter(user_guess)
 
 if turn == 5:
     print("Game Over! The correct word is '%s'" % (random_word))
