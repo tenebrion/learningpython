@@ -49,9 +49,8 @@ word_list = ["hypocrite", "bellicose", "impertinent", "dispensation",
 
 random_word = random.choice(word_list)
 game_board = ["#" for letter in random_word]
-guessed_letters = ["a"]
+guessed_letters = []
 char_list = []
-user_guess = input("Please pick a letter: ")
 
 def guessed(user_guess, letters):
     for chars in letters:
@@ -60,11 +59,15 @@ def guessed(user_guess, letters):
         else:
             guessed_letters.append(user_guess)
             return guessed_letters
+    else:
+        guessed_letters.append(user_guess)
+        return guessed_letters
 
-#trying to replace the specific # with the letter once guessed properly
-for letter in game_board:
-    if user_guess == letter:
-        game_board[letter] = user_guess
+def fill_in_letter(user_guess):
+    #trying to replace the specific # with the letter once guessed properly
+    for i in range(len(random_word)):
+        if user_guess == random_word[i]:
+            game_board[i] = user_guess
 
 def print_game(game_board):
     print(" ".join(game_board))
@@ -80,9 +83,11 @@ def play_game(user_letter, word):
         if user_letter == char:
             print("We found a letter: %s" % (user_letter))
 
-
-print_game(game_board)
-#print(iterate_words(random_word))
-print(guessed(user_guess, guessed_letters))
-#play_game(user_guess, char_list)
-print("Currently guessed letters: %s" % (guessed_letters))
+while 1:
+    print_game(game_board)
+    user_guess = input("Please pick a letter: ")
+    #print(iterate_words(random_word))
+    print(guessed(user_guess, guessed_letters))
+    fill_in_letter(user_guess)
+    #play_game(user_guess, char_list)
+    print("Currently guessed letters: %s" % (guessed_letters))
