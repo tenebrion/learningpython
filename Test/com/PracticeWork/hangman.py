@@ -56,12 +56,10 @@ def guessed(user_guess, letters):
             print("You've already guessed that letter. Please try again!")
         else:
             guessed_letters.append(user_guess)
-            fill_in_letter(user_guess)
-            #return guessed_letters
+            return user_guess
     else:
         guessed_letters.append(user_guess)
-        fill_in_letter(user_guess)
-        #return guessed_letters
+        return user_guess
 
 
 def fill_in_letter(user_guess):
@@ -83,7 +81,11 @@ def play_game(user_word):
     #or finish off a word they already started. I may use this to house all
     #the calls to the various methods already defined.
     if user_word == random_word:
-        print('You guessed the correct word. You WIN!')
+        #print("You guessed the correct word. You WIN!")
+        return "win"
+    else:
+        #print("You are WRONG!!!")
+        return "lose"
         
 def word_meaning(random_word):
     #this section will call the dictionaryapi to define the word
@@ -93,21 +95,29 @@ for turn in range(6):
     print("Turn ", turn + 1)
     
     if (turn + 1) == 1:
+        print_game(game_board)
         user_guess = (input("Please pick a letter: ")).lower()
     
     if (turn + 1) > 1:
+        print("Currently guessed letters: %s" % (guessed_letters))
         attempt_guess = (input("Would you like to guess the word? (y/n): ")).lower()
         
         if attempt_guess == "y":
+            print_game(game_board)
             guess_word = (input("What is your guess? : ")).lower()
-            play_game(guess_word)
+            win_lose = play_game(guess_word)
+            
+            if win_lose == "win":
+                print("Congrats. You WIN the game!")
+                break
+            else:
+                print("You are wrong. Keep going!")
         else:
+            print_game(game_board)
             user_guess = (input("Please pick a letter: ")).lower()
     
-    print("Currently guessed letters: %s" % (guessed_letters))
-    print_game(game_board)
-    guessed(user_guess, guessed_letters)
-    #fill_in_letter(user_guess)
+    pass_user_guess = guessed(user_guess, guessed_letters)
+    fill_in_letter(pass_user_guess)
 
 if turn == 5:
     print("Game Over! The correct word is '%s'" % (random_word))
