@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 '''
 Created on Mar 7, 2016
 
@@ -54,14 +55,11 @@ def guessed(user_guess, letters):
     for chars in letters:
         if user_guess == chars:
             print("You've already guessed that letter. Please try again!")
-        else:
-            guessed_letters.append(user_guess)
-            fill_in_letter(user_guess)
-            #return guessed_letters
-    else:
-        guessed_letters.append(user_guess)
-        fill_in_letter(user_guess)
-        #return guessed_letters
+            return
+
+    # New letter, add it to the list and fill in the gameboard.
+    guessed_letters.append(user_guess)
+    fill_in_letter(user_guess)
 
 
 def fill_in_letter(user_guess):
@@ -84,10 +82,15 @@ def play_game(user_word):
     #the calls to the various methods already defined.
     if user_word == random_word:
         print('You guessed the correct word. You WIN!')
-        
+        return True
+
+    return False
+
+
 def word_meaning(random_word):
     #this section will call the dictionaryapi to define the word
     pass
+
 
 for turn in range(6):
     print("Turn ", turn + 1)
@@ -100,14 +103,14 @@ for turn in range(6):
         
         if attempt_guess == "y":
             guess_word = (input("What is your guess? : ")).lower()
-            play_game(guess_word)
+            if play_game(guess_word) == True:
+                quit()
         else:
             user_guess = (input("Please pick a letter: ")).lower()
-    
+
+    guessed(user_guess, guessed_letters)
     print("Currently guessed letters: %s" % (guessed_letters))
     print_game(game_board)
-    guessed(user_guess, guessed_letters)
-    #fill_in_letter(user_guess)
 
 if turn == 5:
     print("Game Over! The correct word is '%s'" % (random_word))
