@@ -2,9 +2,12 @@
 '''
 Created on Mar 7, 2016
 @author: Michael Koegel / mkoegel@gmail.com
-hangman game
+
+Hangman
+
 Sample XML Response: http://www.dictionaryapi.com/products/api-collegiate-dictionary.htm
 Another option: http://www-personal.umich.edu/~jlawler/wordlist
+
 My original intention was to use dictionary's API to pull random words for my hangman
 game. However, from digging in, that may not be a feasible option since I have to pass
 the API a full URL will a 'word' in it. I was hoping to eliminate a list of words
@@ -12,24 +15,11 @@ that I store in my game. What I may do instead is create a list of words and mak
 an API call to grab the definition when the word is discovered (or not discovered also).
 This is all to learn to work with URL's, API's, translating XML documents, and of
 course the game itself.
-Some features I'll mark off as I go (and remove from these comments):
-display XXXXX for each letter and XXXXX XXX where necessary
-allow user to guess the word
-when a letter is guess correctly, reprint our message, ie. rxxr
-Allow 6 turns (head, body, two arms, two legs)
 '''
 
-'''
+import random
 import urllib.request
 from xml.etree import ElementTree as ET
-#I'll come back to this section once I get the game working. I need practice on this.
-url = "http://www.dictionaryapi.com/api/v1/references/collegiate/xml/hypocrite?key=2fb6218d-a259-4bb1-af32-db6fe195cdc5"
-root = ET.parse(urllib.request.urlopen(url)).getroot()
-print(root)
-items = root.findall('entry id/ew')
-print(items)
-'''
-import random
 
 print("Welcome to Hangman. You get 6 attempts to figure out the word!")
 
@@ -73,6 +63,7 @@ def play_game(user_word):
     #the calls to the various methods already defined.
     if user_word == random_word:
         print('You guessed the correct word. You WIN!')
+        word_meaning(random_word)
         return True
 
     return False
@@ -80,7 +71,19 @@ def play_game(user_word):
 
 def word_meaning(random_word):
     #this section will call the dictionaryapi to define the word
-    pass
+    #I can make the connection, but have issues deciphering the XML document
+    url = "http://www.dictionaryapi.com/api/v1/references/collegiate/xml/" + random_word + "?key=2fb6218d-a259-4bb1-af32-db6fe195cdc5"
+    con = urllib.request.urlopen(url)
+    xml_file = con.read()
+    con.close()
+    print(xml_file)
+    
+    '''
+    root = ET.parse(urllib.request.urlopen(url)).getroot()
+    print(root)
+    items = root.findall("entry id")
+    print(items)
+    '''
 
 
 for turn in range(6):
@@ -105,3 +108,4 @@ for turn in range(6):
 
 if turn == 5:
     print("Game Over! The correct word is '%s'" % (random_word))
+    word_meaning(random_word)
