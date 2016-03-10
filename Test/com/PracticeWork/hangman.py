@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 '''
 Created on Mar 7, 2016
 
@@ -54,12 +55,20 @@ def guessed(user_guess, letters):
     for chars in letters:
         if user_guess == chars:
             print("You've already guessed that letter. Please try again!")
+<<<<<<< HEAD
         else:
             guessed_letters.append(user_guess)
             return user_guess
     else:
         guessed_letters.append(user_guess)
         return user_guess
+=======
+            return
+
+    # New letter, add it to the list and fill in the gameboard.
+    guessed_letters.append(user_guess)
+    fill_in_letter(user_guess)
+>>>>>>> origin/master
 
 
 def fill_in_letter(user_guess):
@@ -81,15 +90,25 @@ def play_game(user_word):
     #or finish off a word they already started. I may use this to house all
     #the calls to the various methods already defined.
     if user_word == random_word:
+<<<<<<< HEAD
         #print("You guessed the correct word. You WIN!")
         return "win"
     else:
         #print("You are WRONG!!!")
         return "lose"
         
+=======
+        print('You guessed the correct word. You WIN!')
+        return True
+
+    return False
+
+
+>>>>>>> origin/master
 def word_meaning(random_word):
     #this section will call the dictionaryapi to define the word
     pass
+
 
 for turn in range(6):
     print("Turn ", turn + 1)
@@ -105,6 +124,7 @@ for turn in range(6):
         if attempt_guess == "y":
             print_game(game_board)
             guess_word = (input("What is your guess? : ")).lower()
+<<<<<<< HEAD
             win_lose = play_game(guess_word)
             
             if win_lose == "win":
@@ -112,12 +132,23 @@ for turn in range(6):
                 break
             else:
                 print("You are wrong. Keep going!")
+=======
+            if play_game(guess_word) == True:
+                quit()
+>>>>>>> origin/master
         else:
             print_game(game_board)
             user_guess = (input("Please pick a letter: ")).lower()
+<<<<<<< HEAD
     
     pass_user_guess = guessed(user_guess, guessed_letters)
     fill_in_letter(pass_user_guess)
+=======
+
+    guessed(user_guess, guessed_letters)
+    print("Currently guessed letters: %s" % (guessed_letters))
+    print_game(game_board)
+>>>>>>> origin/master
 
 if turn == 5:
     print("Game Over! The correct word is '%s'" % (random_word))
