@@ -19,7 +19,7 @@ course the game itself.
 
 import random
 import urllib.request
-from xml.etree import ElementTree as ET
+from xml.dom import minidom
 
 print("Welcome to Hangman. You get 6 attempts to figure out the word!")
 
@@ -76,14 +76,9 @@ def word_meaning(random_word):
     con = urllib.request.urlopen(url)
     xml_file = con.read()
     con.close()
-    print(xml_file)
-    
-    '''
-    root = ET.parse(urllib.request.urlopen(url)).getroot()
-    print(root)
-    items = root.findall("entry id")
-    print(items)
-    '''
+    xml_doc = minidom.parse(xml_file)
+    ref_list = xml_doc.getElementsByTagName("dt")
+    print(ref_list[0].toxml())
 
 
 for turn in range(6):
