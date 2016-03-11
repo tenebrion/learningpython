@@ -19,7 +19,7 @@ course the game itself.
 
 import random
 import urllib.request
-from xml.dom import minidom
+from xml.dom.minidom import parse
 
 print("Welcome to Hangman. You get 6 attempts to figure out the word!")
 
@@ -72,12 +72,9 @@ def play_game(user_word):
 def word_meaning(random_word):
     #this section will call the dictionaryapi to define the word
     #I can make the connection, but have issues deciphering the XML document
-    url = "http://www.dictionaryapi.com/api/v1/references/collegiate/xml/" + random_word + "?key=2fb6218d-a259-4bb1-af32-db6fe195cdc5"
-    con = urllib.request.urlopen(url)
-    xml_file = con.read()
-    con.close()
-    xml_doc = minidom.parse(xml_file)
-    ref_list = xml_doc.getElementsByTagName("dt")
+    xml = urllib.request.urlopen("http://www.dictionaryapi.com/api/v1/references/collegiate/xml/" + random_word + "?key=2fb6218d-a259-4bb1-af32-db6fe195cdc5")
+    xml_file = parse(xml)
+    ref_list = xml_file.getElementsByTagName("dt")
     print(ref_list[0].toxml())
 
 
