@@ -53,13 +53,17 @@ def guessed(user_guess, letters):
 #this method is replacing the ### symbols with the correctly guessed letter
 #and putting the letter in the proper spot
 def fill_in_letter(user_guess):
-    #trying to replace the specific # with the letter once guessed properly
+    #since the game_board is a list, have to swap
+    #characters in a similar fashion
     for i in range(len(random_word)):
         if user_guess == random_word[i]:
             game_board[i] = user_guess
             print("We found a letter: '%s'" % (user_guess))
         
-        #if all chars are revealed before the 6 turns are up, the user wins
+    #if all chars are revealed before the 8 turns are up, the user wins
+    #I am having trouble wrapping my head around this last bit.
+    if game_board == random_word:
+        play_game(game_board)
 
 #simple process of printing the game
 def print_game(game_board):
@@ -82,10 +86,16 @@ def word_meaning(random_word):
     xml = urllib.request.urlopen(
                                  "http://www.dictionaryapi.com/api/v1/references/collegiate/xml/" \
                                   + random_word + "?key=2fb6218d-a259-4bb1-af32-db6fe195cdc5")
-    xml_file = parse(xml)
-    ref_list = xml_file.getElementsByTagName("dt")
-    #just stripping out the initial <dt>: tag
-    print((ref_list[0].toxml()).replace("<dt>:",""))
+    #I'll need a try, except here. I've found some words
+    #that don't exist in their current state. For example,
+    #jejunus has a potential match of jejunum...
+    try:
+        xml_file = parse(xml)
+        ref_list = xml_file.getElementsByTagName("dt")
+        #just stripping out the initial <dt>: tag
+        print((ref_list[0].toxml()).replace("<dt>:", "").replace("</dt>", ""))
+    except IndexError:
+        print("Item not found in dictionary. It may be listed under another name.")
 
 #this is the meat of the game. Right now it does basics of allowing 6 turns and a 'play again'
 #option. However, the play again doesn't reset the turn number.
