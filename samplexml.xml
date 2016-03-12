@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<person>
+	<firstname>Michael</firstname>
+	<lastname>Koegel</lastname>
+	<home>Chandler</home>
+	<skill name="Python"/>
+	<skill name="PowerShell"/>
+	<skill name="Cloud"/>
+	<skill name="VMware"/>
+</person>
