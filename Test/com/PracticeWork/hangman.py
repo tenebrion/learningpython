@@ -19,15 +19,21 @@ import random
 import urllib.request
 from xml.dom.minidom import parse
 
-print("Welcome to Hangman. You get 6 attempts to figure out the word!")
+print("Welcome to Hangman. You get 8 attempts to figure out the word!")
 
-#temporary word list. I'll eventually pull words from an API (or website)
-word_list = ["hypocrite", "bellicose", "impertinent", "dispensation",
-             "humility", "love", "denial", "uncomfortable", "asinine",
-             "thug", "rhyme", "orgy", "creates", "massive", "erection"]
 
-#setting a few intitial variables
-random_word = random.choice(word_list)
+def make_random():
+    word_site = urllib.request.urlopen(
+        "http://www-personal.umich.edu/~jlawler/wordlist"
+        )
+    txt = word_site.read()
+    words = txt.splitlines()
+    random_word = str(random.choice(words))
+    random_word =  ((random_word).replace("b'", "").replace("'", ""))
+    return random_word
+
+#setting a few initial variables
+random_word = make_random()
 game_board = ["#" for letter in random_word]
 guessed_letters = []
 play_again = True
@@ -72,8 +78,10 @@ def play_game(user_word):
 #I only need to fix the formatting upon print. I may look at using
 #regex to remove < > items
 def word_meaning(random_word):
-    #I need to teach myself how to format the url so it can reside on multiple lines and still work
-    xml = urllib.request.urlopen("http://www.dictionaryapi.com/api/v1/references/collegiate/xml/" + random_word + "?key=2fb6218d-a259-4bb1-af32-db6fe195cdc5")
+    #url call
+    xml = urllib.request.urlopen(
+                                 "http://www.dictionaryapi.com/api/v1/references/collegiate/xml/" \
+                                  + random_word + "?key=2fb6218d-a259-4bb1-af32-db6fe195cdc5")
     xml_file = parse(xml)
     ref_list = xml_file.getElementsByTagName("dt")
     #just stripping out the initial <dt>: tag
@@ -82,7 +90,7 @@ def word_meaning(random_word):
 #this is the meat of the game. Right now it does basics of allowing 6 turns and a 'play again'
 #option. However, the play again doesn't reset the turn number.
 while play_again:
-    for turn in range(6):
+    for turn in range(8):
         print("Turn ", turn + 1)
         
         #if this is the first turn, print a simple message
@@ -106,6 +114,8 @@ while play_again:
                     #I don't know how to reset the turn counter yet.
                     #I may end up changing from a for loop to a while loop and
                     #add a counter - then reset the counter here.
+                    elif play_more == "y":
+                        make_random()
                     else:
                         quit()
             else:
@@ -115,7 +125,21 @@ while play_again:
         print("Currently guessed letters: %s" % (guessed_letters))
         print_game(game_board)
     
-    #if the user hits the 6th turn and doesn't guess the word, game over
-    if turn == 5:
+    #if the user hits the 8th turn and doesn't guess the word, game over
+    if turn == 7:
         print("Game Over! The correct word is '%s'" % (random_word))
         word_meaning(random_word)
+        
+        #find out if the user wants to play more
+        play_more = (input("Wanna play again (y / n)? ")).lower()
+        
+        #this section will determine next steps. Either end the game,
+        #start over, or quit (in the event of something other than
+        #y or n selections
+        if play_more == "n":
+            play_again = False
+            quit()
+        elif play_more == "y":
+            make_random()
+        else:
+            quit()
