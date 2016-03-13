@@ -63,8 +63,8 @@ def guessed(user_guess, letters):
 
 def fill_in_letter(user_guess):
     """
-    this method is replacing the ### symbols with the correctly guessed letter
-    and putting the letter in the proper spot
+    this method is replacing the ### symbols with the correctly guessed
+    letter and putting the letter in the proper spot
     """
     #since the game_board is a list, have to swap
     #characters in a similar fashion
