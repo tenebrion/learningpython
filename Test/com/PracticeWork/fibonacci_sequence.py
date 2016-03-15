@@ -9,12 +9,19 @@ sequence and practice skills
 '''
 #n = input("Please enter the sequence 'nth' value: ")
 
-def fib(n):
-    if n == 0:
-        return 0
-    elif n == 1:
-        return 1
-    else:
-        return fib(n-1) + fib(n-2)
+def fibonacci(n):
+    """
+    Simple and clean method to work on on the
+    classic fibonacci sequence
+    """
+    #assigning x and y at the same time - clean look
+    x, y = 0, 1
+    values = [] #I wanted to print them in a 'list'
+    for i in range(n):
+        values.append(x)
+        #this eliminates the need for a 'temporary'
+        #variable
+        x, y = y, x + y
+    return values
 
-print(fib(35))
+print(fibonacci(10))
