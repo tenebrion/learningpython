@@ -24,6 +24,7 @@ import urllib.request
 from xml.dom.minidom import parse
 
 print("Welcome to Hangman. You get 8 attempts to figure out the word!")
+play_again = True
 
 def make_random():
     """
@@ -42,24 +43,15 @@ def make_random():
     random_word = ((random_word).replace("b'", "").replace("'", ""))
     return random_word
 
-#setting a few initial variables
-random_word = make_random()
-game_board = ["#" for letter in random_word]
-guessed_letters = []
-play_again = True
-
 def guessed(user_guess, letters):
     """this is checking to ensure the letter hasn't been guessed already"""
     for chars in letters:
         if user_guess == chars:
             print("You've already guessed that letter. Please try again!")
-            return
-
-    # New letter, add it to the list and fill in the game_board.
+    #need to figure out how to stop appending a global variable
+    #and convert this to a 'pure method'
     guessed_letters.append(user_guess)
-    #passing user_guess to another method
     fill_in_letter(user_guess)
-
 
 def fill_in_letter(user_guess):
     """
@@ -68,15 +60,17 @@ def fill_in_letter(user_guess):
     """
     #since the game_board is a list, have to swap
     #characters in a similar fashion
-    for i in range(len(random_word)):
+    for i, j in enumerate(random_word):
         if user_guess == random_word[i]:
+            #need to teach myself how to return this value
+            #instead of modifying a 'global' variable
             game_board[i] = user_guess
             print("We found a letter: '%s'" % (user_guess))
 
     #if all chars are revealed before the 8 turns are up, the user wins
     #I am having trouble wrapping my head around this last bit.
-    if game_board == random_word:
-        play_game(game_board)
+    #maybe a for loop is necessary???
+    
 
 def print_game(game_board):
     """simple process of printing the game"""
@@ -121,6 +115,11 @@ while play_again:
     this is the meat of the game. Right now it does basics of allowing 8 turns and
     a 'play again' option.
     """
+    #setting a few initial variables to repeat while play_again is set to true
+    random_word = make_random()
+    game_board = ["#" for letter in random_word]
+    guessed_letters = []
+
     for turn in range(8):
         print("Turn ", turn + 1) #prints Turn 1, Turn 2, etc.
 
