@@ -18,7 +18,6 @@ a 'word' in it. Instead, I'll use option two which is a word list
 This is all to learn to work with URL's, API, translating XML
 documents, and of course the game itself.
 """
-
 import random
 import urllib.request
 from xml.dom.minidom import parse
@@ -34,7 +33,7 @@ def make_random():
     """
     word_site = urllib.request.urlopen(
         "http://www-personal.umich.edu/~jlawler/wordlist"
-        )
+    )
     txt = word_site.read()
     words = txt.splitlines()
     # need to convert our results to a string format to cleanup
@@ -69,18 +68,12 @@ def fill_in_letter(letter_guess):
 
     :param letter_guess: str
     """
-    # since the game_board is a list, have to swap
-    # characters in a similar fashion
     for i, j in enumerate(random_word):
         if letter_guess == random_word[i]:
             # need to teach myself how to return this value
             # instead of modifying a 'global' variable
             game_board[i] = letter_guess
             print("We found a letter: {}".format(letter_guess))
-
-    # if all chars are revealed before the 8 turns are up, the user wins
-    # I am having trouble wrapping my head around this last bit.
-    # maybe a for loop is necessary???
 
 
 def print_game(user_board):
@@ -102,7 +95,6 @@ def play_game(user_word):
         print('You guessed the correct word. You WIN!')
         word_meaning(random_word)
         return True
-
     # if the guess is wrong, continue along
     return False
 
@@ -133,6 +125,7 @@ def word_meaning(web_word):
     except IndexError:
         print("Item not found in dictionary. It may be listed under another name.")
 
+
 while play_again:
     """
     this is the meat of the game. Right now it does basics of allowing 8 turns and
@@ -144,7 +137,7 @@ while play_again:
     guessed_letters = []
 
     for turn in range(8):
-        print("Turn ", turn + 1) # prints Turn 1, Turn 2, etc.
+        print("Turn ", turn + 1)  # prints Turn 1, Turn 2, etc.
 
         # if this is the first turn, print a simple message
         if (turn + 1) == 1:
@@ -157,14 +150,13 @@ while play_again:
 
             if attempt_guess == "y":
                 guess_word = (input("What is your guess? : ")).lower()
+
                 if play_game(guess_word):
                     # setting up an additional round if selected
                     play_more = (input("Wanna play another round (y / n)? ")).lower()
 
-                    """
-                    this section will check the user response and either
-                    quit, restart the game, or quit due to an invalid response.
-                    """
+                    # this section will check the user response and either
+                    # quit, restart the game, or quit due to an invalid response.
                     if play_more == "n":
                         play_again = False
                         quit()
