@@ -37,9 +37,10 @@ def make_random():
     txt = word_site.read()
     words = txt.splitlines()
     #need to convert our results to a string format to cleanup
-    #the results
+    #the output, which are various XML tags
     random_word = str(random.choice(words))
-    #found a couple entries that I needed to remove
+    #found a couple entries that I needed to remove. I know there is
+    #a better way to do this, but I don't know how.
     random_word = ((random_word).replace("b'", "").replace("'", ""))
     return random_word
 
@@ -65,7 +66,7 @@ def fill_in_letter(user_guess):
             #need to teach myself how to return this value
             #instead of modifying a 'global' variable
             game_board[i] = user_guess
-            print("We found a letter: '%s'" % (user_guess))
+            print("We found a letter: {}".format(user_guess))
 
     #if all chars are revealed before the 8 turns are up, the user wins
     #I am having trouble wrapping my head around this last bit.
@@ -154,12 +155,12 @@ while play_again:
 
         #initialization of the game and printing a message / board
         guessed(user_guess, guessed_letters)
-        print("Currently guessed letters: %s" % (guessed_letters))
+        print("Currently guessed letters: {}".format(guessed_letters))
         print_game(game_board)
 
     #if the user hits the 8th turn and doesn't guess the word, game over
     if turn == 7:
-        print("Game Over! The correct word is '%s'" % (random_word))
+        print("Game Over! The correct word is '{}'".format(random_word))
         word_meaning(random_word)
 
         #find out if the user wants to play more
