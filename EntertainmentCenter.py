@@ -6,11 +6,11 @@ Created on Feb 25, 2016
 """
 Working with media.py
 """
-from com.PracticeWork import media #need to figure out why this won't reference my 'media.py file)
-from com.PracticeWork import fresh_tomatoes #need to figure out why this won't reference the 'fresh_tomatoes.py' file
+import Media #need to figure out why this won't reference my 'media.py file)
+import fresh_tomatoes #need to figure out why this won't reference the 'fresh_tomatoes.py' file
 
 #The section below is fairly generic. It's just my list of random movie to display on a web page.
-toy_story = media.Movie("Toy Story",
+toy_story = Media.Movie("Toy Story",
                         "81",
                         "Woody (Tom Hanks), a good-hearted cowboy doll who belongs to a young boy named Andy (John Morris), \
                         sees his position as Andy's favorite toy jeopardized when his parents buy him a Buzz Lightyear (Tim Allen)\
@@ -21,7 +21,7 @@ toy_story = media.Movie("Toy Story",
                         "https://youtu.be/KYz2wyBy3kc")
 #print (toy_story.storyline)
 
-avatar = media.Movie("Avatar",
+avatar = Media.Movie("Avatar",
                      "162",
                      "On the lush alien world of Pandora live the Na'vi, beings who appear primitive but are highly evolved.\
                       Because the planet's environment is poisonous, human/Na'vi hybrids, called Avatars, must link to human\
@@ -33,7 +33,7 @@ avatar = media.Movie("Avatar",
 #print(avatar.storyline)
 #avatar.show_trailer()
 
-die_hard = media.Movie("Die Hard",
+die_hard = Media.Movie("Die Hard",
                        "131",
                      "New York City policeman John McClane (Bruce Willis) is visiting his estranged wife (Bonnie Bedelia) and\
                       two daughters on Christmas Eve. He joins her at a holiday party in the headquarters of the Japanese-owned\
@@ -42,7 +42,7 @@ die_hard = media.Movie("Die Hard",
                      "https://upload.wikimedia.org/wikipedia/en/7/7e/Die_hard.jpg",
                      "https://youtu.be/2TQ-pOvI6Xo")
 
-deadpool = media.Movie("Deadpool",
+deadpool = Media.Movie("Deadpool",
                        "108",
                      "Wade Wilson (Ryan Reynolds) is a former Special Forces operative who now works as a mercenary. His world\
                       comes crashing down when evil scientist Ajax (Ed Skrein) tortures, disfigures and transforms him into Deadpool.\
@@ -52,7 +52,7 @@ deadpool = media.Movie("Deadpool",
                      "https://upload.wikimedia.org/wikipedia/en/4/46/Deadpool_poster.jpg",
                      "https://youtu.be/ZIM1HydF9UA")
 
-resident_evil = media.Movie("Resident Evil",
+resident_evil = Media.Movie("Resident Evil",
                             "100",
                      "Based on the popular video game, Milla Jovovich and Michelle Rodriguez star as the leaders of a commando\
                       team who must break into 'the hive', a vast underground genetics laboratory operated by the powerful Umbrella\
@@ -62,7 +62,7 @@ resident_evil = media.Movie("Resident Evil",
                      "https://upload.wikimedia.org/wikipedia/en/a/a1/Resident_evil_ver4.jpg",
                      "https://youtu.be/PWUT4CXWcwQ")
 
-star_trek = media.Movie("Star Trek",
+star_trek = Media.Movie("Star Trek",
                         "127",
                      "Aboard the USS Enterprise, the most-sophisticated starship ever built, a novice crew embarks on its maiden voyage.\
                       Their path takes them on a collision course with Nero (Eric Bana), a Romulan commander whose mission of\
