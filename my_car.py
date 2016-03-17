@@ -15,7 +15,7 @@ class Car(object):
     
     #printing a message about the car
     def display_car(self):
-        print ("This is a %s %s with %s MPG" % (self.model, self.color, self.mpg))
+        print ("This is a {} {} with {} MPG".format(self.model, self.color, self.mpg))
     
     def drive_car(self):
         self.condition = "used" #sets car to used if driven

@@ -18,7 +18,7 @@ random_num = randint(1, 20)
 #as long as debug_enabled is set to 'True' this section will process
 if debug_enabled:
     #need to print the random number
-    print("Debug Mode Enabled: The random number is %s" % (random_num))
+    print("Debug Mode Enabled: The random number is {}".format(random_num))
 
 #===============================================================================
 # This method is here to compare the user's guess to the randomly generated
@@ -76,7 +76,7 @@ for turn in range(10):
         
         #if the user guesses the correct number on attempt 2 through 10, print a message
         if (user_guess == random_num) and (turn + 1 >= 2):
-            print("You WIN! It took you %s attempts to guess the right number" % (turn + 1))
+            print("You WIN! It took you {} attempts to guess the right number".format(turn + 1))
             break
     
     #passing the values to the method to compare
