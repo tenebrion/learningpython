@@ -146,14 +146,35 @@ while play_again:
         # any guess beyond the first guess prompts to see if the
         # user wants to guess the word
         if (turn + 1) > 1:
-            attempt_guess = (input("Would you like to guess the word? (y/n): ")).lower()
+            while True:
+                try:
+                    attempt_guess = (input("Would you like to guess the word? (y/n): ")).lower()
+                except ValueError:
+                    print("Please enter letters that form a word")
+                    continue
+                else:
+                    break
 
             if attempt_guess == "y":
-                guess_word = (input("What is your guess? : ")).lower()
+                while True:
+                    try:
+                        guess_word = (input("What is your guess? : ")).lower()
+                    except ValueError:
+                        print("Please enter a letter, not some other stuff!")
+                        continue
+                    else:
+                        break
 
                 if play_game(guess_word):
                     # setting up an additional round if selected
-                    play_more = (input("Wanna play another round (y / n)? ")).lower()
+                    while True:
+                        try:
+                            play_more = (input("Wanna play another round (y / n)? ")).lower()
+                        except ValueError:
+                            print("Please pick y or n. It's not rocket science!")
+                            continue
+                        else:
+                            break
 
                     # this section will check the user response and either
                     # quit, restart the game, or quit due to an invalid response.
