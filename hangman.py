@@ -19,6 +19,8 @@ This is all to learn to work with URL's, API, translating XML
 documents, and of course the game itself.
 """
 import random
+from urllib.error import URLError
+from urllib.error import HTTPError
 import urllib.request
 from xml.dom.minidom import parse
 
@@ -108,21 +110,26 @@ def word_meaning(web_word):
     :param web_word: str
     """
 
-    # url call
-    xml = urllib.request.urlopen(
-        "http://www.dictionaryapi.com/api/v1/references/collegiate/xml/"
-        + web_word + "?key=2fb6218d-a259-4bb1-af32-db6fe195cdc5")
-
-    # I'll need a try, except here. I've found some words that don't exist
-    # in their current state. For example, jejunus has a potential match of jejunum
     try:
-        xml_file = parse(xml)
-        ref_list = xml_file.getElementsByTagName("dt")
-        # just stripping out the initial and closing <dt>: tag
-        print((ref_list[0].toxml()).replace("<dt>:", "").replace("</dt>", ""))
-    # the IndexError happens when a word doesn't exist in the dictionary
-    except IndexError:
-        print("Item not found in dictionary. It may be listed under another name.")
+        # url call
+        xml = urllib.request.urlopen(
+            "http://www.dictionaryapi.com/api/v1/references/collegiate/xml/"
+            + web_word + "?key=2fb6218d-a259-4bb1-af32-db6fe195cdc5")
+
+        # I'll need a try, except here. I've found some words that don't exist
+        # in their current state. For example, jejunus has a potential match of jejunum
+        try:
+            xml_file = parse(xml)
+            ref_list = xml_file.getElementsByTagName("dt")
+            # just stripping out the initial and closing <dt>: tag
+            print((ref_list[0].toxml()).replace("<dt>:", "").replace("</dt>", ""))
+        # the IndexError happens when a word doesn't exist in the dictionary
+        except IndexError:
+            print("Item not found in dictionary. It may be listed under another name.")
+    except HTTPError as error:
+        print('Error code: ', error.code)
+    except URLError as e:
+        print('Reason: ', e.reason)
 
 
 while play_again:
