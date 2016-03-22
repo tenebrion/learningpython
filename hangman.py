@@ -109,7 +109,6 @@ def word_meaning(web_word):
 
     :param web_word: str
     """
-
     try:
         # url call
         xml = urllib.request.urlopen(
@@ -128,8 +127,8 @@ def word_meaning(web_word):
             print("Item not found in dictionary. It may be listed under another name.")
     except HTTPError as error:
         print('Error code: ', error.code)
-    except URLError as e:
-        print('Reason: ', e.reason)
+    except URLError as error:
+        print('Reason: ', error.reason)
 
 
 while play_again:
