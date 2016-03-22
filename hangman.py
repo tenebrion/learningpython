@@ -47,14 +47,14 @@ def make_random():
     return random_word
 
 
-def guessed(letter_guess, letters):
+def guessed(letter_guess, already_guessed):
     """
     This is checking to ensure the letter hasn't been guessed already
 
     :param letter_guess: str
-    :param letters: str
+    :param already_guessed: str
     """
-    for chars in letters:
+    for chars in already_guessed:
         if letter_guess == chars:
             return False
         else:
@@ -171,6 +171,9 @@ while play_again:
             else:
                 user_guess = (input("Please pick another letter: ")).lower()
 
+                # this section is supposed to check existing entries in guessed_letters.
+                # if an entry exists, ask the user for a new word, otherwise append
+                # it to the guess_letters list.
                 while True:
                     if guessed(user_guess, guessed_letters):
                         guessed_letters.append(user_guess)
