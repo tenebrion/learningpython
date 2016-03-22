@@ -10,7 +10,7 @@ When you're finished, you should have corrected 84 errors.
 """
 count = 0
 # opening the file and referencing it by my_file name
-with open("green_eggs_and_ham.txt") as my_file:
+with open(r"C:\Users\michael.f.koegel\Documents\GitHub\learningpython\green_eggs_and_ham.txt") as my_file:
     content = my_file.readlines()
 
 # I need to loop through each line and then each char
@@ -24,9 +24,9 @@ for line in content:
 # quick count of all capital "I's" to see what was modified
 # There may be a way to tie it into the previous loops,
 # but I'm not sure how
-for aline in content:
-    for achar in aline:
-        if achar == "I":
+for a_line in content:
+    for a_char in a_line:
+        if a_char == "I":
             count += 1
 
 # writing the results to a new file so I don't contaminate
