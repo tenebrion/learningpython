@@ -112,10 +112,9 @@ def word_meaning(web_word):
     xml = urllib.request.urlopen(
         "http://www.dictionaryapi.com/api/v1/references/collegiate/xml/"
         + web_word + "?key=2fb6218d-a259-4bb1-af32-db6fe195cdc5")
-    """
-    I'll need a try, except here. I've found some words that don't exist
-    in their current state. For example, jejunus has a potential match of jejunum
-    """
+
+    # I'll need a try, except here. I've found some words that don't exist
+    # in their current state. For example, jejunus has a potential match of jejunum
     try:
         xml_file = parse(xml)
         ref_list = xml_file.getElementsByTagName("dt")
@@ -140,41 +139,20 @@ while play_again:
         print("Turn ", turn + 1)  # prints Turn 1, Turn 2, etc.
 
         # if this is the first turn, print a simple message
+        # otherwise, allow the user to try and guess the word
         if (turn + 1) == 1:
             user_guess = (input("Please pick a letter: ")).lower()
+            guessed(user_guess, guessed_letters)
+        elif (turn + 1) > 1:
+            attempt_guess = (input("Would you like to guess the word? (y/n): ")).lower()
 
-        # any guess beyond the first guess prompts to see if the
-        # user wants to guess the word
-        if (turn + 1) > 1:
-            while True:
-                try:
-                    attempt_guess = (input("Would you like to guess the word? (y/n): ")).lower()
-                except ValueError:
-                    print("Please enter letters that form a word")
-                    continue
-                else:
-                    break
-
+            # if the user ops to try and guess the word, go through the process and check
             if attempt_guess == "y":
-                while True:
-                    try:
-                        guess_word = (input("What is your guess? : ")).lower()
-                    except ValueError:
-                        print("Please enter a letter, not some other stuff!")
-                        continue
-                    else:
-                        break
+                guess_word = (input("What is your guess? : ")).lower()
 
                 if play_game(guess_word):
                     # setting up an additional round if selected
-                    while True:
-                        try:
-                            play_more = (input("Wanna play another round (y / n)? ")).lower()
-                        except ValueError:
-                            print("Please pick y or n. It's not rocket science!")
-                            continue
-                        else:
-                            break
+                    play_more = (input("Wanna play another round (y / n)? ")).lower()
 
                     # this section will check the user response and either
                     # quit, restart the game, or quit due to an invalid response.
@@ -187,30 +165,34 @@ while play_again:
                         quit()
             else:
                 user_guess = (input("Please pick a letter: ")).lower()
+                guessed(user_guess, guessed_letters)
+        else:
+            # not sure what else to put here...
+            break
 
         # initialization of the game and printing a message / board
-        guessed(user_guess, guessed_letters)
         print("Currently guessed letters: {}".format(guessed_letters))
         print_game(game_board)
 
-    # if the user hits the 8th turn and doesn't guess the word, game over
-    if turn == 7:
-        print("Game Over! The correct word is '{}'".format(random_word))
-        word_meaning(random_word)
+        # if the user hits the 8th turn and doesn't guess the word, game over
+        # not sure why I can't convert this to an elif
+        if turn == 7:
+            print("Game Over! The correct word is '{}'".format(random_word))
+            word_meaning(random_word)
 
-        # find out if the user wants to play more
-        play_more = (input("Wanna play again (y / n)? ")).lower()
+            # find out if the user wants to play more
+            play_more = (input("Wanna play again (y / n)? ")).lower()
 
-        """
-        this section will determine next steps. Either end the game,
-        start over, or quit (in the event of something other than
-        y or n selections).
-        """
-        if play_more == "n":
-            play_again = False
-            quit()
-        elif play_more == "y":
-            make_random()
-        else:
-            # this runs if something other than y or n is used
-            quit()
+            """
+            this section will determine next steps. Either end the game,
+            start over, or quit (in the event of something other than
+            y or n selections).
+            """
+            if play_more == "n":
+                play_again = False
+                quit()
+            elif play_more == "y":
+                make_random()
+            else:
+                # this runs if something other than y or n is used
+                quit()
