@@ -47,20 +47,19 @@ def make_random():
     return random_word
 
 
-def guessed(word_guess, letters):
+def guessed(letter_guess, letters):
     """
     This is checking to ensure the letter hasn't been guessed already
 
-    :param word_guess: str
-    :param letters: str, list
+    :param letter_guess: str
+    :param letters: str
     """
     for chars in letters:
-        if word_guess == chars:
-            print("You've already guessed that letter. Please try again!")
-    # need to figure out how to stop appending a global variable
-    # and convert this to a 'pure method'
-    guessed_letters.append(word_guess)
-    fill_in_letter(word_guess)
+        if letter_guess == chars:
+            return False
+        else:
+            fill_in_letter(letter_guess)
+            return True
 
 
 def fill_in_letter(letter_guess):
@@ -148,7 +147,7 @@ while play_again:
         # otherwise, allow the user to try and guess the word
         if (turn + 1) == 1:
             user_guess = (input("Please pick a letter: ")).lower()
-            guessed(user_guess, guessed_letters)
+            guessed_letters.append(user_guess)
         elif (turn + 1) > 1:
             attempt_guess = (input("Would you like to guess the word? (y/n): ")).lower()
 
@@ -170,8 +169,16 @@ while play_again:
                     else:
                         quit()
             else:
-                user_guess = (input("Please pick a letter: ")).lower()
-                guessed(user_guess, guessed_letters)
+                user_guess = (input("Please pick another letter: ")).lower()
+
+                while True:
+                    if guessed(user_guess, guessed_letters):
+                        guessed_letters.append(user_guess)
+                        break
+                    else:
+                        user_guess = (input("You've already guessed that word. Please try again: ")).lower()
+                        guessed(user_guess, guessed_letters)
+                        continue
         else:
             # not sure what else to put here...
             break
