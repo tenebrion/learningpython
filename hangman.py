@@ -55,7 +55,7 @@ def guessed(letter_guess, already_guessed):
     :param already_guessed: str
     """
     for chars in already_guessed:
-        if letter_guess == chars:
+        if chars == letter_guess:
             return False
         else:
             fill_in_letter(letter_guess)
@@ -170,7 +170,6 @@ while play_again:
                         quit()
             else:
                 user_guess = (input("Please pick another letter: ")).lower()
-
                 # this section is supposed to check existing entries in guessed_letters.
                 # if an entry exists, ask the user for a new word, otherwise append
                 # it to the guess_letters list.
