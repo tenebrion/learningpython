@@ -11,4 +11,4 @@ different - print((%s : %s) % (stuff, more_stuff))). I also try to keep my code 
 to get into a habit.
 
 Feel free to propose improvements, suggestions, comments, etc.! I love the prospects of learning more
-efficient ways to code things (while maintaining readability). 
+efficient ways to code things (while maintaining readability).
