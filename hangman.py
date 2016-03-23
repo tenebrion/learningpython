@@ -120,15 +120,13 @@ def play_game(user_word):
 def continue_playing():
     """
     Checking to see if the user wants to play another round
-    :param another_round: str
+
     :return:
     """
     play_more = (input("Wanna play again (y / n)? ")).lower()
 
     if play_more == "y":
         return True
-    elif play_more == "n":
-        return False
     else:
         quit()
 
@@ -200,8 +198,6 @@ while play_again:
                     # setting up an additional round if selected
                     if continue_playing():
                         make_random()
-                    else:
-                        play_again = False
             else:
                 user_guess = (input("Please pick another letter: ")).lower()
 
@@ -242,5 +238,3 @@ while play_again:
             # checking to see if the user wants to continue playing.
             if continue_playing():
                 make_random()
-            else:
-                play_again = False
