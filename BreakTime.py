@@ -1,18 +1,19 @@
-'''
-Created on Feb 24, 2016
-
-@author: michael.f.koegel
-'''
 """
-This is a simple program to tell me I need a break after a certain period of time.
+Created on Mar 7, 2016
+@author: Michael Koegel / mkoegel@gmail.com
+
+This is a simple learning program to teach me
+how to use the time function and webbrowser function
 """
-import webbrowser #needed to work with the webbrowser.open_new function
-import time #needed to work with the current time - aka ctime()
+import webbrowser
+import time
 
-count = 0 #counter for the while loop
+count = 0
 
-print("This program started on: " +time.ctime()) #printing current time the program started.
-while count <= 2: #as long as the count is less than 2 (technically 3, since code starts at 0)
-    time.sleep(3600) #this puts the program to sleep based on seconds.
-    webbrowser.open_new("https://www.youtube.com/watch?v=SLhZzMgSJJg") #opens up a new browser (default system browser) and plays the youtube link
-    count += 1 #increases the count by 1
+# printing current time the program started.
+print("This program started on: {}".format(time.ctime()))
+while count <= 2:
+    time.sleep(10)  # this puts the program to sleep based on seconds.
+    # opens up a new browser (default system browser) and plays the youtube link
+    webbrowser.open_new("https://www.youtube.com/watch?v=SLhZzMgSJJg")
+    count += 1
