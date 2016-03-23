@@ -7,7 +7,8 @@ Hangman
 
 Sample XML Response:
 http://www.dictionaryapi.com/products/api-collegiate-dictionary.htm
-Another option:
+
+Where I'm pulling my word list:
 http://www-personal.umich.edu/~jlawler/wordlist
 
 My original intention was to use dictionary's API to pull random
@@ -77,6 +78,21 @@ def fill_in_letter(letter_guess):
             print("We found a letter: {}".format(letter_guess))
 
 
+def check_input(verify_letter):
+    """
+    This is a simple method to verify the letter the user inputs
+    is only an alpha character
+
+    :param verify_letter: str
+    :return:
+    """
+    while True:
+        if verify_letter.isalpha():
+            return True
+        else:
+            return False
+
+
 def print_game(user_board):
     """
     simple process of printing the game
@@ -98,6 +114,23 @@ def play_game(user_word):
         return True
     # if the guess is wrong, continue along
     return False
+
+
+# I need to change this so it does all the work including asking the user for input
+def continue_playing():
+    """
+    Checking to see if the user wants to play another round
+    :param another_round: str
+    :return:
+    """
+    play_more = (input("Wanna play again (y / n)? ")).lower()
+
+    if play_more == "y":
+        return True
+    elif play_more == "n":
+        return False
+    else:
+        quit()
 
 
 def word_meaning(web_word):
@@ -147,7 +180,15 @@ while play_again:
         # otherwise, allow the user to try and guess the word
         if (turn + 1) == 1:
             user_guess = (input("Please pick a letter: ")).lower()
-            guessed_letters.append(user_guess)
+
+            # validating user input for an alpha character
+            while True:
+                if check_input(user_guess):
+                    guessed_letters.append(user_guess)
+                    break
+                else:
+                    user_guess = (input("Please pick a letter and not something else: ")).lower()
+                    continue
         elif (turn + 1) > 1:
             attempt_guess = (input("Would you like to guess the word? (y/n): ")).lower()
 
@@ -157,29 +198,32 @@ while play_again:
 
                 if play_game(guess_word):
                     # setting up an additional round if selected
-                    play_more = (input("Wanna play another round (y / n)? ")).lower()
-
-                    # this section will check the user response and either
-                    # quit, restart the game, or quit due to an invalid response.
-                    if play_more == "n":
-                        play_again = False
-                        quit()
-                    elif play_more == "y":
+                    if continue_playing():
                         make_random()
                     else:
-                        quit()
+                        play_again = False
             else:
                 user_guess = (input("Please pick another letter: ")).lower()
-                # this section is supposed to check existing entries in guessed_letters.
-                # if an entry exists, ask the user for a new word, otherwise append
-                # it to the guess_letters list.
+
+                # This will pass the users letter guess off to check_input
+                # for alpha verification
                 while True:
-                    if guessed(user_guess, guessed_letters):
-                        guessed_letters.append(user_guess)
+                    if check_input(user_guess):
+                        while True:
+                            if guessed(user_guess, guessed_letters):
+                                # after we verify that the letter is alpha and not
+                                # something else, lets append it to our list of
+                                # guessed letters
+                                guessed_letters.append(user_guess)
+                                break
+                            else:
+                                user_guess = (input(
+                                    "You've already guessed that letter. Please try again: ")).lower()
+                                guessed(user_guess, guessed_letters)
+                                continue
                         break
                     else:
-                        user_guess = (input("You've already guessed that word. Please try again: ")).lower()
-                        guessed(user_guess, guessed_letters)
+                        user_guess = (input("Again, please pick a letter: ")).lower()
                         continue
         else:
             # not sure what else to put here...
@@ -195,19 +239,8 @@ while play_again:
             print("Game Over! The correct word is '{}'".format(random_word))
             word_meaning(random_word)
 
-            # find out if the user wants to play more
-            play_more = (input("Wanna play again (y / n)? ")).lower()
-
-            """
-            this section will determine next steps. Either end the game,
-            start over, or quit (in the event of something other than
-            y or n selections).
-            """
-            if play_more == "n":
-                play_again = False
-                quit()
-            elif play_more == "y":
+            # checking to see if the user wants to continue playing.
+            if continue_playing():
                 make_random()
             else:
-                # this runs if something other than y or n is used
-                quit()
+                play_again = False
