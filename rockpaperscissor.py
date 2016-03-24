@@ -38,12 +38,12 @@ def compare_values(user, computer):
     # if the user picks an item that loses to the computer, computer wins
     if user_pick == comp_rule:
         scores["Computer"] += 1
-        return ("{} beats {}: The computer WINS!".format(comp_choice, user_pick))
+        return "{} beats {}: The computer WINS!".format(comp_choice, user_pick)
 
     # if computer picks something that loses to the user, the user wins
     if comp_choice == user_rule:
         scores["User"] += 1
-        return ("{} beats {}: You WIN!".format(user_pick, comp_choice))
+        return "{} beats {}: You WIN!".format(user_pick, comp_choice)
 
 for turn in range(10):
     print("Turn", turn + 1)  # should print Turn 1, Turn 2, etc.
@@ -77,6 +77,7 @@ for turn in range(10):
                     print("{}: {}".format(items, scores[items]))
             break
 
+    # limiting the game to 10 rounds.
     if turn == 9:
         print("Your 10 games are over. The scores are:")
         for items in sorted(scores):
