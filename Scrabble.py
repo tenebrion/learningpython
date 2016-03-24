@@ -1,8 +1,3 @@
-'''
-Created on Feb 24, 2016
-
-@author: michael.f.koegel
-'''
 """
 Creating a simple scrabble game to total up the values of each letter
 For example, the word is 'pie', the score should be 3+1+1 or 5
@@ -13,12 +8,18 @@ score = {"a": 1, "c": 3, "b": 3, "e": 1, "d": 2, "g": 2,
          "r": 1, "u": 1, "t": 1, "w": 4, "v": 4, "y": 4, 
          "x": 8, "z": 10}
 
+
 def scrabble_score(word):
-    word = word.lower() #making sure all words are lowercase
-    total = 0 #initializing the total with a value of 0
+    """
+    Performing our score calculations
 
-    for char in word: #iterating through all the words in our dictionary
-        total += score[char] #adding up the character values
-    print(total) #printing out our total
+    :param word: str
+    """
+    word = word.lower()
+    total = 0
 
-scrabble_score("quiddich") #initializing the function
+    for char in word:
+        total += score[char]
+    print(total)  # printing out our total
+
+scrabble_score("quiddich")
