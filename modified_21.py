@@ -74,8 +74,12 @@ class Card:
 
 class Deck:
     """
-    Creating the deck layout
+    Creating the deck, keeping track of the number of
+    cards used in the event a user wants to play until
+    all cards are used up.
     """
+    def __init__(self, num_cards=52):
+        self.num_cards = num_cards
 
 
 class Hand:
