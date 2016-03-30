@@ -95,5 +95,5 @@ class Player:
 class Game:
     """
     This is where the game will be handled. Things like
-    printing messages and game info, dealing cards, 
+    printing messages and game info, dealing cards,
     """
