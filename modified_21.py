@@ -69,7 +69,8 @@ class Card:
 
         :return
         """
-        return "{} of {}".format(self.rank, self.suit)
+        #return "{} of {}".format(self.rank, self.suit)
+        print("{} of {}".format(self.rank, self.suit))
 
 
 class Deck:
@@ -78,8 +79,24 @@ class Deck:
     cards used in the event a user wants to play until
     all cards are used up.
     """
+    suits = ["Clubs", "Spades", "Diamonds", "Hearts"]
+    ranks = {"Ace": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6,
+             "7": 7, "8": 8, "9": 9, "10": 10, "Jack": 10,
+             "Queen": 10, "King": 10}
+
     def __init__(self, num_cards=52):
         self.num_cards = num_cards
+        self.cards = []
+
+        for rank in self.ranks:
+            for suit in self.suits:
+                cards = Card()
+                cards.rank = rank[0]
+                cards.value = rank[1]
+                cards.suit = suit
+                self.cards.append(cards)
+
+        # for each hand drawn, cards need to be removed
 
 
 class Hand:
