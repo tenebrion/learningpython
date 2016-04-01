@@ -43,17 +43,15 @@ and then remove cards as they are drawn. At the end of each
 round, make the deck have all of the cards again.
 """
 import random
+import copy
 
 
-class Card:
+class Card():
     """
-    Creating the basics of a card and outputting a message based on
-    the card type
+    Implement a basic playing card
     """
     def __init__(self, value=1, rank="Ace", suit="Spades"):
         """
-        Simple assignment of self variables
-
         :param value: blackjack value of card
         :param rank: type of card (e.g. King)
         :param suit: {Diamonds, Hearts, Spades, Clubs}
@@ -63,69 +61,390 @@ class Card:
         self.suit = suit
 
     def __str__(self):
-        """
-        return a simple message that will print to the screen.
-        Example: Jack of Clubs
-
-        :return
-        """
-        #return "{} of {}".format(self.rank, self.suit)
-        print("{} of {}".format(self.rank, self.suit))
+        return "{} of {}".format(self.rank, self.suit)
 
 
-class Deck:
-    """
-    Creating the deck, keeping track of the number of
-    cards used in the event a user wants to play until
-    all cards are used up.
-    """
-    suits = ["Clubs", "Spades", "Diamonds", "Hearts"]
-    ranks = {"Ace": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6,
-             "7": 7, "8": 8, "9": 9, "10": 10, "Jack": 10,
-             "Queen": 10, "King": 10}
+class Deck():
+    """ Implement a standard 52-card deck """
+    ranks = [("Ace", 1), ("2", 2), ("3", 3), ("4", 4), ("5", 5), ("6", 6),
+             ("7", 7), ("8", 8), ("9", 9), ("10", 10), ("Jack", 10),
+             ("Queen", 10), ("King", 10)]
+    suits = ["Spades", "Diamonds", "Hearts", "Clubs"]
 
-    def __init__(self, num_cards=52):
-        self.num_cards = num_cards
+    def __init__(self):
         self.cards = []
-
         for rank in self.ranks:
             for suit in self.suits:
-                cards = Card()
-                cards.rank = rank[0]
-                cards.value = rank[1]
-                cards.suit = suit
-                self.cards.append(cards)
-
-        # for each hand drawn, cards need to be removed
+                card = Card()
+                card.rank = rank[0]
+                card.value = rank[1]
+                card.suit = suit
+                self.cards.append(card)
 
 
-class Hand:
+class Hand():
     """
-    Storing the cards the player and dealer will have in
-    their hands
+    Implement a blackjack hand. Hands keep track of player bets
     """
+    def __init__(self, bet=1):
+        """
+        :param bet: how much are we betting?
+        """
+        self.cards = []
+        self.values = []
+        self.valid_moves = []
+        self.bet = bet
+
+    def add_card(self, card):
+        """
+        Update properties when card is added
+        :param card: type of Card
+        """
+        self.cards.append(card)
+        self.__update_values()
+        self.__update_valid_moves()
+
+    def __update_valid_moves(self):
+        """
+        Update self.valid_moves to set of possible moves
+        """
+        moves = ["Stay"]
+
+        # case for 21
+        for value in self.values:
+            if value > 21:
+                self.valid_moves = "Bust"
+                return
+            if value == 21:
+                if len(self.cards) == 2:
+                    self.valid_moves = "Blackjack"
+                    return
+                self.valid_moves = "21"
+                return
+        moves.append("Hit")
+
+        if len(self.cards) <= 2:
+            moves.append("Double")
+
+        if len(self.cards) == 2:
+            if self.cards[0].rank == self.cards[1].rank:
+                moves.append("Split")
+
+        self.valid_moves = moves
+
+    def __update_values(self):
+        """
+        Calculate value of hand
+        """
+        v = [0]
+        has_ace = False
+
+        # two values for hands with aces
+        for card in self.cards:
+            v[0] += card.value
+            if card.rank == "Ace":
+                has_ace = True
+
+        # hand is soft if below 12
+        if has_ace:
+            if v[0] < 12:
+                v.append(v[0] + 10)
+
+        self.values = v
+
+    def __str__(self):
+        """
+        :param return
+        """
+        return str([str(card) for card in self.cards])
 
 
-class Player:
+class CardStack():
     """
-    This will build the player template and the dealer
-    template to play the game, store the score, etc.
+    Implement a variable-sized show
     """
+    def __init__(self, num_decks=1):
+        """
+        Build stack of decks and shuffle
+        :param num_decks: number of decks to use
+        """
+        self.stack = []
+        for i in range(num_decks):
+            deck = Deck()
+            for card in deck.cards:
+                self.stack.append(card)
+        random.shuffle(self.stack)
+
+    def draw(self):
+        return self.stack.pop()
+
+    def __len__(self):
+        return len(self.stack)
 
 
-class Game:
+class Player():
+    def __init__(self, chips=1000):
+        """
+        :param chips: number of chips for the player
+        """
+        self.chips = chips
+        self.name = input("Enter your name: ")
+
+    def __str__(self):
+        return "Player {}".format(self.name)
+
+    def place_bet(self):
+        print("Player {} : {} chips".format(self.name, str(self.chips)))
+        bet = input("Place your bet ('q' to quit): ")
+        if bet == "q":
+            return bet
+
+        while True:
+            try:
+                bet = int(bet)
+                if bet < 1:
+                    bet = int(input("Bet must be at least 1. Try again: "))
+                elif self.chips - bet < 0:
+                    bet = int(input("Not enough chips. Try again: "))
+                else:
+                    break
+            except ValueError:
+                bet = input("Not a valid bet. Try again: ")
+
+        self.chips -= bet
+        print("chips: {}".format(str(self.chips)))
+        return bet
+
+    def make_move(self, hand):
+        """
+        given a poker hand, returns a move
+        :param hand: managing the player / dealer hand
+        """
+        print("{} make a move for: {}".format(str(self), str(hand)))
+        moves_list = hand.valid_moves
+        print("Valid moves - {}:".format(str([str(i) + ':' + move for i, move in enumerate(moves_list)])))
+        move = input("Choose a move (e.g. '0'): ")
+        while True:
+            try:
+                move = int(move)
+                if move < 0 or move >= len(moves_list):
+                    move = int(input("Invalid move number. Choose again: "))
+                # case of double down without enough chips
+                elif moves_list[move] == "Double":
+                    if self.chips < hand.bet:
+                        move = int(input("Not enough chips to double. Choose again: "))
+                    else:
+                        self.chips -= hand.bet
+                        break
+                # case of split without enough chips
+                elif moves_list[move] == "Split":
+                    if self.chips < hand.bet:
+                        move = int(input("Not enough chips to split. Choose again: "))
+                    else:
+                        self.chips -= hand.bet
+                        break
+                else:
+                    break
+            except ValueError:
+                move = input("Invalid move. Choose again: ")
+        return moves_list[move]
+
+
+class Game():
     """
-    This is where the game will be handled. Things like
-    printing messages and game info, dealing cards,
+    Implement a blackjack game
     """
-    chips = 100
-    max_score = 21
-    play_again = True
-    # simple welcome message
-    print("Welcome to a modified version of Blackjack. \n"
-          "The goal is to stay as close to 100 as possible. \n"
-          "Any time you bust, 21 points are subtracted from "
-          "your total score. \n"
-          "Otherwise, the difference from your score "
-          "and 21 are subtracted from 100. \n"
-          "Good luck!")
+    def __init__(self, num_players=2, num_decks=8):
+        """
+        positions is list of players and their hands
+        :param num_players: setting the number of players
+        :param num_decks: how many decks to use
+        """
+        self.positions = []
+        self.num_players = num_players
+        self.num_decks = num_decks
+
+        for i in range(num_players):
+            self.positions.append([Player(), []])
+
+        self.dealer = Hand()
+        self.cardstack = CardStack(num_decks)
+        self.chips = 0
+
+    def play(self):
+        """
+        Play a game of blackjack
+        """
+        print("Starting a new game!\n")
+
+        # play until all players quit
+        while True:
+            print("Starting a new round!\n")
+
+            # new shoe if less than one deck remaining
+            if len(self.cardstack) < 52:
+                self.cardstack = CardStack(self.num_decks)
+
+            # collect bets and reset lists of players and hands
+            self.dealer = Hand()
+            new_positions = []
+            for player, hands in self.positions:
+                bet = player.place_bet()
+
+                if bet == "q":
+                    print("{} quits!".format(player))
+                    self.num_players -= 1
+
+                    if self.num_players == 0:
+                        print("No more players. Game over!")
+                        return
+                    continue
+                new_positions.append([player, [Hand(bet)]])
+            self.positions = new_positions
+
+            self.deal_cards()
+            self.print_status()
+
+            # handle dealer blackjack case
+            if self.dealer.valid_moves == "Blackjack":
+                print("Dealer blackjack! :(")
+
+                for player, hands in self.positions:
+                    # push on player blackjack
+                    if hands[0].valid_moves == "Blackjack":
+                        player.chips += hands[0].bet
+                        print("{} pushes on dealer blackjack.".format(str(player)))
+                continue
+
+            # go through players' hands and take moves
+            staying_hands = []
+            for player, hands in self.positions:
+                for hand in hands:
+
+                    # loop until 21, bust, or stay
+                    while True:
+                        # check for 21 or blackjack
+                        if hand.valid_moves == "Blackjack":
+                            print("{} has blackjack and wins {} chips!".format(str(player), str(2 * hand.bet)))
+                            player.chips += 2 * hand.bet
+                            break
+
+                        if hand.valid_moves == "21":
+                            print("{} has 21".format(str(player)))
+                            staying_hands.append([player, hand])
+                            break
+
+                        # if not 21, then get player move
+                        selected_move = player.make_move(copy.deepcopy(hand))
+                        if selected_move == "Stay":
+                            if len(hand.values) == 2:
+                                print("{} stays on soft {}".format(str(player), str(hand.values[1])))
+                            else:
+                                print("{} stays on {}".format(str(player), str(hand.values[0])))
+                            staying_hands.append([player, hand])
+                            break
+
+                        if selected_move == "Hit":
+                            new_card = self.cardstack.draw()
+                            print("{} hits and draws a {}".format(player, new_card))
+                            hand.add_card(new_card)
+                            if hand.valid_moves == "Bust":
+                                print("Bust!")
+                                break
+
+                        if selected_move == "Double":
+                            new_card = self.cardstack.draw()
+                            print("{} doubles down and draws a {}".format(player, new_card))
+                            hand.add_card(new_card)
+                            hand.bet *= 2
+
+                            if hand.valid_moves == "Bust":
+                                print("Bust!")
+                                break
+
+                            print("{} ends on {}".format(str(player), str(max(hand.values))))
+                            staying_hands.append([player, hand])
+                            break
+
+                        # for splits, make two new Hands and insert them after the current hand
+                        if selected_move == "Split":
+                            print("{} splits on two {}".format(player, str(hand.cards[0].rank)))
+                            index = hands.index(hand) + 1
+                            hand1 = Hand(hand.bet)
+                            hand1.add_card(hand.cards[0])
+                            hand2 = Hand(hand.bet)
+                            hand2.add_card(hand.cards[1])
+                            hands.insert(index, hand2)
+                            hands.insert(index, hand1)
+                            break
+
+            # if no more players, start new round
+            if not staying_hands:
+                continue
+
+            # dealer's turn
+            while True:
+                is_dealer_soft = False
+
+                if len(self.dealer.values) == 2:
+                    is_dealer_soft = True
+                    dealer_value = self.dealer.values[1]
+                else:
+                    dealer_value = self.dealer.values[0]
+
+                # stay if more than 17 or hard 17
+                if dealer_value > 17 or (dealer_value == 17 and is_dealer_soft is False):
+                    break
+                # hits on soft 17
+                else:
+                    card = self.cardstack.draw()
+                    self.dealer.add_card(card)
+                    print("Dealer hits and draws a {}".format(str(card)))
+
+                # if dealer busts, then all staying hands win
+                is_dealer_busted = False
+
+                if self.dealer.valid_moves == "Bust":
+                    print("Dealer busts!\n")
+                    is_dealer_busted = True
+                else:
+                    print("Dealer has hand: {}".format(str(self.dealer)))
+                    print("Dealer stays on {}".format(str(dealer_value)))
+
+                for player, hand in staying_hands:
+                    # win
+                    if is_dealer_busted or max(hand.values) > max(self.dealer.values):
+                        player.chips += 2 * hand.bet
+                        print("{} wins {} chips with hand: {}".format(str(player), str(2 * hand.bet), str(hand)))
+                    # push
+                    elif max(hand.values) == max(self.dealer.values):
+                        player.chips += hand.bet
+                        print("{} pushes with hand: {} and wins {} back".format(str(player), str(hand.bet)))
+                    # loss
+                    else:
+                        print("{} loses with hand: {}".format(str(player), str(hand)))
+                print("\nEnd of round.\n\n")
+
+    def deal_cards(self):
+        """
+        Deal initial cards following casino order
+        """
+        for i in range(2):
+            for player, hands in self.positions:
+                hands[0].add_card(self.cardstack.draw())
+            self.dealer.add_card(self.cardstack.draw())
+
+    def print_status(self):
+        """
+        Print player hands, then print dealer hand
+        """
+        for player, hands in self.positions:
+            print("-----------------------")
+            print("Player {}".format(player.name))
+
+            for i, hand in enumerate(hands):
+                print("Hand {}: {}".format(str(i), str(hand)))
+
+            print("-----------------------")
+        print("Dealer: {}".format(str(self.dealer)))
+        print("-----------------------")
