@@ -46,7 +46,7 @@ import random
 import copy
 
 
-class Card():
+class Card:
     """
     Implement a basic playing card
     """
@@ -64,7 +64,7 @@ class Card():
         return "{} of {}".format(self.rank, self.suit)
 
 
-class Deck():
+class Deck:
     """ Implement a standard 52-card deck """
     ranks = [("Ace", 1), ("2", 2), ("3", 3), ("4", 4), ("5", 5), ("6", 6),
              ("7", 7), ("8", 8), ("9", 9), ("10", 10), ("Jack", 10),
@@ -82,7 +82,7 @@ class Deck():
                 self.cards.append(card)
 
 
-class Hand():
+class Hand:
     """
     Implement a blackjack hand. Hands keep track of player bets
     """
@@ -159,7 +159,7 @@ class Hand():
         return str([str(card) for card in self.cards])
 
 
-class CardStack():
+class CardStack:
     """
     Implement a variable-sized show
     """
@@ -182,7 +182,7 @@ class CardStack():
         return len(self.stack)
 
 
-class Player():
+class Player:
     def __init__(self, chips=1000):
         """
         :param chips: number of chips for the player
@@ -250,7 +250,7 @@ class Player():
         return moves_list[move]
 
 
-class Game():
+class Game:
     """
     Implement a blackjack game
     """
@@ -268,7 +268,7 @@ class Game():
             self.positions.append([Player(), []])
 
         self.dealer = Hand()
-        self.cardstack = CardStack(num_decks)
+        self.card_stack = CardStack(num_decks)
         self.chips = 0
 
     def play(self):
@@ -282,8 +282,8 @@ class Game():
             print("Starting a new round!\n")
 
             # new shoe if less than one deck remaining
-            if len(self.cardstack) < 52:
-                self.cardstack = CardStack(self.num_decks)
+            if len(self.card_stack) < 52:
+                self.card_stack = CardStack(self.num_decks)
 
             # collect bets and reset lists of players and hands
             self.dealer = Hand()
@@ -345,7 +345,7 @@ class Game():
                             break
 
                         if selected_move == "Hit":
-                            new_card = self.cardstack.draw()
+                            new_card = self.card_stack.draw()
                             print("{} hits and draws a {}".format(player, new_card))
                             hand.add_card(new_card)
                             if hand.valid_moves == "Bust":
@@ -353,7 +353,7 @@ class Game():
                                 break
 
                         if selected_move == "Double":
-                            new_card = self.cardstack.draw()
+                            new_card = self.card_stack.draw()
                             print("{} doubles down and draws a {}".format(player, new_card))
                             hand.add_card(new_card)
                             hand.bet *= 2
@@ -397,7 +397,7 @@ class Game():
                     break
                 # hits on soft 17
                 else:
-                    card = self.cardstack.draw()
+                    card = self.card_stack.draw()
                     self.dealer.add_card(card)
                     print("Dealer hits and draws a {}".format(str(card)))
 
@@ -431,8 +431,8 @@ class Game():
         """
         for i in range(2):
             for player, hands in self.positions:
-                hands[0].add_card(self.cardstack.draw())
-            self.dealer.add_card(self.cardstack.draw())
+                hands[0].add_card(self.card_stack.draw())
+            self.dealer.add_card(self.card_stack.draw())
 
     def print_status(self):
         """
