@@ -118,3 +118,14 @@ class Game:
     This is where the game will be handled. Things like
     printing messages and game info, dealing cards,
     """
+    chips = 100
+    max_score = 21
+    play_again = True
+    # simple welcome message
+    print("Welcome to a modified version of Blackjack. \n"
+          "The goal is to stay as close to 100 as possible. \n"
+          "Any time you bust, 21 points are subtracted from "
+          "your total score. \n"
+          "Otherwise, the difference from your score "
+          "and 21 are subtracted from 100. \n"
+          "Good luck!")
