@@ -47,8 +47,11 @@ import random
 
 def cards():
     """
-    Building out the playing deck and storing it in a list.
+    Building out the playing_deck and storing it in a list.
     For example, "5 of Spades"
+    As the game progresses, I'll have to find a way to remove
+    cards from the playing_deck and reset to a full deck
+    when they quit or start over.
     """
     ranks = {"Ace": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6,
              "7": 7, "8": 8, "9": 9, "10": 10, "Jack": 10,
@@ -63,9 +66,40 @@ def cards():
             card_value = values
             playing_deck.append("{} of {}".format(rank, suit))
 
-    # just for testing / visual needs while I build the program
+    # should return a random card from the playing_deck
     random_card = random.choice(playing_deck)
-    print(random_card)
-    return playing_deck
+    return random_card
 
-print(cards())
+
+def score(player, dealer):
+    """
+    This is where the math happens! This method will take
+    the score passed in, subtract it from the max_score
+    and then remove chips as necessary. I also want to
+    keep track of the dealer's score for fun.
+
+    :param player: passing in the player's score (e.g. 19)
+    :param dealer: passing in the dealer's score (e.g. 20)
+    """
+    player_chips = 100
+    dealer_chips = 100
+    max_score = 21
+
+    player_chips = (player_chips - (max_score - player))
+    dealer_chips = (dealer_chips - (max_score - dealer))
+    return "Player's score: {} \nDealer's score: {}".format(player_chips, dealer_chips)
+
+
+def hand():
+    """
+    This is where the hands for the player and dealer will be
+    worked with and stored during each round.
+    """
+    player_cards = []
+
+    while len(player_cards) < 2:
+        player_cards.append(cards())
+
+    
+
+    return player_cards
