@@ -96,10 +96,24 @@ def hand():
     worked with and stored during each round.
     """
     player_cards = []
+    dealer_cards = []
 
     while len(player_cards) < 2:
         player_cards.append(cards())
 
-    
+    while len(dealer_cards) < 2:
+        dealer_cards.append(cards())
 
-    return player_cards
+    # case for player 21
+    for card in player_cards:
+        # figure out how to get the values from the cards()
+        pass
+
+    # case for dealer 21
+    for card in player_cards:
+        # figure out how to get the values from the cards()
+        pass
+    # for testing purposes while I build this out
+    return "P {} / D {}".format(player_cards, dealer_cards)
+
+print(hand())
