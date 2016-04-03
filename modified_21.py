@@ -60,10 +60,9 @@ def cards():
     playing_deck = []
 
     # building out the playing cards and storing them in - deck
-    for rank, values in ranks.items():
+    for rank in ranks:
         for suit in suits:
             # I need the values saved, but I don't know where yet.
-            card_value = values
             playing_deck.append("{} of {}".format(rank, suit))
 
     # should return a random card from the playing_deck
@@ -71,7 +70,7 @@ def cards():
     return random_card
 
 
-def score(player, dealer):
+def score(p_chips, d_chips, player, dealer, turn):
     """
     This is where the math happens! This method will take
     the score passed in, subtract it from the max_score
@@ -81,22 +80,29 @@ def score(player, dealer):
     :param player: passing in the player's score (e.g. 19)
     :param dealer: passing in the dealer's score (e.g. 20)
     """
-    player_chips = 100
-    dealer_chips = 100
+
+    # there has to be a better way - not sure what to look
+    # for though.
+    player_chips = p_chips
+    dealer_chips = d_chips
     max_score = 21
 
     player_chips = (player_chips - (max_score - player))
     dealer_chips = (dealer_chips - (max_score - dealer))
-    return "Player's score: {} \nDealer's score: {}".format(player_chips, dealer_chips)
+    return player_chips, dealer_chips
 
 
-def hand():
+def hand(turn):
     """
     This is where the hands for the player and dealer will be
     worked with and stored during each round.
     """
     player_cards = []
     dealer_cards = []
+    p_card_value = 0
+    d_card_value = 0
+    p_score = 100
+    d_score = 100
 
     while len(player_cards) < 2:
         player_cards.append(cards())
@@ -114,6 +120,8 @@ def hand():
         # figure out how to get the values from the cards()
         pass
     # for testing purposes while I build this out
+    print(score(p_score, d_score, p_card_value, d_card_value, turn))
     return "P {} / D {}".format(player_cards, dealer_cards)
 
-print(hand())
+turn = 1
+print(hand(turn))
