@@ -45,40 +45,64 @@ round, make the deck have all of the cards again.
 import random
 
 
-def cards():
-    """
-    Building out the playing_deck and storing it in a list.
-    For example, "5 of Spades"
-    As the game progresses, I'll have to find a way to remove
-    cards from the playing_deck and reset to a full deck
-    when they quit or start over.
-    """
-    ranks = {"Ace": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6,
-             "7": 7, "8": 8, "9": 9, "10": 10, "Jack": 10,
-             "Queen": 10, "King": 10}
-    suits = ["Spades", "Diamonds", "Hearts", "Clubs"]
-    playing_deck = []
+class Cards():
+    def __init__(self, value=1, rank="Ace", suit="Spades"):
+        self.value = value
+        self.rank = rank
+        self.suit = suit
 
-    # building out the playing cards and storing them in - deck
-    for rank in ranks:
-        for suit in suits:
-            # I need the values saved, but I don't know where yet.
-            playing_deck.append("{} of {}".format(rank, suit))
+    def deck(self):
+        """
+        Building out the playing_deck and storing it in a list.
+        For example, "5 of Spades"
+        As the game progresses, I'll have to find a way to remove
+        cards from the playing_deck and reset to a full deck
+        when they quit or start over.
+        """
+        ranks = {"Ace": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6,
+                 "7": 7, "8": 8, "9": 9, "10": 10, "Jack": 10,
+                 "Queen": 10, "King": 10}
+        suits = ["Spades", "Diamonds", "Hearts", "Clubs"]
+        playing_deck = []
 
-    # should return a random card from the playing_deck
-    random.shuffle(playing_deck)
-    random_card = random.choice(playing_deck)
-    return random_card
+        # building out the playing cards and storing them in - deck
+        for rank in ranks:
+            for suit in suits:
+                # I need the values saved, but I don't know where yet.
+                playing_deck.append("{} of {}".format(rank, suit))
+
+        # should return a random card from the playing_deck
+        random_card = random.choice(playing_deck)
+        return random_card
+
+    def card_value(self):
+        pass
 
 
 class Score:
+    """
+    I'm trying to keep score, but I'm not sure this is the right way. I want
+    to create a class for it so I can learn more about classes.
+    """
     def __init__(self, player_chips, dealer_chips, player_score, dealer_score):
+        """
+        :param player_chips: this is the chip count for the player (e.g. 50)
+        :param dealer_chips: this is the chip count for the dealer (e.g. 50)
+        :param player_score: this is the player's score from the recent round (e.g. 21)
+        :param dealer_score: this is the dealer's score from the recent round (e.g. 21)
+        """
         self.player_chips = player_chips
         self.dealer_chips = dealer_chips
         self.player_score = player_score
         self.dealer_score = dealer_score
 
     def game_score(self):
+        """
+        This should do some simple math by taking the max blackjack sore (21)
+        and subtracting it from the user / dealer scores (e.g. 21 - 15). Then
+        it will subtract that difference from the number of chips the
+        player and dealer have left (e.g. 100 - 6)
+        """
         max_score = 21
         p_chips = (self.player_chips - (max_score - self.player_score))
         d_chips = (self.dealer_chips - (max_score - self.dealer_score))
@@ -87,7 +111,7 @@ class Score:
         print("Dealer chips left: {}".format(d_chips))
 
 
-def hand(turn):
+def hand():
     """
     This is where the hands for the player and dealer will be
     worked with and stored during each round.
@@ -96,24 +120,23 @@ def hand(turn):
     dealer_cards = []
 
     while len(player_cards) < 2:
-        player_cards.append(cards())
+        player_cards.append(Cards().deck())
 
     while len(dealer_cards) < 2:
-        dealer_cards.append(cards())
+        dealer_cards.append(Cards().deck())
 
     # case for player 21
     for card in player_cards:
-        # figure out how to get the values from the cards()
+        # figure out how to get the values from the Cards().card_value()
         pass
 
     # case for dealer 21
     for card in player_cards:
-        # figure out how to get the values from the cards()
+        # figure out how to get the values from the Cards().card_value()
         pass
     # for testing purposes while I build this out
     score = Score(90, 90, 20, 18)
     score.game_score()
     return "P {} / D {}".format(player_cards, dealer_cards)
 
-game_count = 1
-print(hand(game_count))
+print(hand())
