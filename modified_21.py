@@ -66,30 +66,25 @@ def cards():
             playing_deck.append("{} of {}".format(rank, suit))
 
     # should return a random card from the playing_deck
+    random.shuffle(playing_deck)
     random_card = random.choice(playing_deck)
     return random_card
 
 
-def score(p_chips, d_chips, player, dealer, turn):
-    """
-    This is where the math happens! This method will take
-    the score passed in, subtract it from the max_score
-    and then remove chips as necessary. I also want to
-    keep track of the dealer's score for fun.
+class Score:
+    def __init__(self, player_chips, dealer_chips, player_score, dealer_score):
+        self.player_chips = player_chips
+        self.dealer_chips = dealer_chips
+        self.player_score = player_score
+        self.dealer_score = dealer_score
 
-    :param player: passing in the player's score (e.g. 19)
-    :param dealer: passing in the dealer's score (e.g. 20)
-    """
-
-    # there has to be a better way - not sure what to look
-    # for though.
-    player_chips = p_chips
-    dealer_chips = d_chips
-    max_score = 21
-
-    player_chips = (player_chips - (max_score - player))
-    dealer_chips = (dealer_chips - (max_score - dealer))
-    return player_chips, dealer_chips
+    def game_score(self):
+        max_score = 21
+        p_chips = (self.player_chips - (max_score - self.player_score))
+        d_chips = (self.dealer_chips - (max_score - self.dealer_score))
+        #return p_chips, d_chips
+        print("Player chips left: {}".format(p_chips))
+        print("Dealer chips left: {}".format(d_chips))
 
 
 def hand(turn):
@@ -99,10 +94,6 @@ def hand(turn):
     """
     player_cards = []
     dealer_cards = []
-    p_card_value = 0
-    d_card_value = 0
-    p_score = 100
-    d_score = 100
 
     while len(player_cards) < 2:
         player_cards.append(cards())
@@ -120,8 +111,9 @@ def hand(turn):
         # figure out how to get the values from the cards()
         pass
     # for testing purposes while I build this out
-    print(score(p_score, d_score, p_card_value, d_card_value, turn))
+    score = Score(90, 90, 20, 18)
+    score.game_score()
     return "P {} / D {}".format(player_cards, dealer_cards)
 
-turn = 1
-print(hand(turn))
+game_count = 1
+print(hand(game_count))
