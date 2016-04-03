@@ -51,6 +51,12 @@ class Cards():
         self.rank = rank
         self.suit = suit
 
+    ranks = {"Ace": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6,
+             "7": 7, "8": 8, "9": 9, "10": 10, "Jack": 10,
+             "Queen": 10, "King": 10}
+    suits = ["Spades", "Diamonds", "Hearts", "Clubs"]
+    playing_deck = []
+
     def deck(self):
         """
         Building out the playing_deck and storing it in a list.
@@ -59,24 +65,22 @@ class Cards():
         cards from the playing_deck and reset to a full deck
         when they quit or start over.
         """
-        ranks = {"Ace": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6,
-                 "7": 7, "8": 8, "9": 9, "10": 10, "Jack": 10,
-                 "Queen": 10, "King": 10}
-        suits = ["Spades", "Diamonds", "Hearts", "Clubs"]
-        playing_deck = []
 
         # building out the playing cards and storing them in - deck
-        for rank in ranks:
-            for suit in suits:
+        for rank in self.ranks:
+            for suit in self.suits:
                 # I need the values saved, but I don't know where yet.
-                playing_deck.append("{} of {}".format(rank, suit))
+                self.playing_deck.append("{} of {}".format(rank, suit))
+                random.shuffle(self.playing_deck)
 
         # should return a random card from the playing_deck
-        random_card = random.choice(playing_deck)
+        random_card = random.choice(self.playing_deck)
         return random_card
 
     def card_value(self):
-        pass
+        # not sure this is the proper spot for the values...
+        for suit, value in self.ranks.items():
+            return value
 
 
 class Score:
