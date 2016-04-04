@@ -60,6 +60,7 @@ class Card:
         self.suit = suit
 
     def __str__(self):
+        # just returning the rank and suit (e.g. 2 of Spades)
         return "{} of {}".format(self.rank, self.suit)
 
 
@@ -83,44 +84,24 @@ class Deck:
                 self.cards.append(playing_card)
 
 
-class Score:
-    """
-    I'm trying to keep score, but I'm not sure this is the right way. I want
-    to create a class for it so I can learn more about classes.
-    """
-    def __init__(self, player_chips, dealer_chips, player_score, dealer_score):
-        """
-        :param player_chips: this is the chip count for the player (e.g. 50)
-        :param dealer_chips: this is the chip count for the dealer (e.g. 50)
-        :param player_score: this is the player's score from the recent round (e.g. 21)
-        :param dealer_score: this is the dealer's score from the recent round (e.g. 21)
-        """
-        self.player_chips = player_chips
-        self.dealer_chips = dealer_chips
-        self.player_score = player_score
-        self.dealer_score = dealer_score
+class Game:
+    def __init__(self):
+        # trying to build out the game.
+        self.card_stack = []
+        # this will store the number of playing card decks
+        # the player wants to use (e.g. 4 decks of cards)
+        card_decks = 2
 
-    def game_score(self):
-        """
-        This should do some simple math by taking the max blackjack sore (21)
-        and subtracting it from the user / dealer scores (e.g. 21 - 15). Then
-        it will subtract that difference from the number of chips the
-        player and dealer have left (e.g. 100 - 6)
-        """
-        max_score = 21
-        p_chips = (self.player_chips - (max_score - self.player_score))
-        d_chips = (self.dealer_chips - (max_score - self.dealer_score))
-        #return p_chips, d_chips
-        print("Player chips left: {}".format(p_chips))
-        print("Dealer chips left: {}".format(d_chips))
+        # creating the playing card deck and shuffling the cards
+        for i in range(card_decks):
+            deck = Deck()
+            for card in deck.cards:
+                self.card_stack.append(card)
+        random.shuffle(self.card_stack)
 
-# basic section to get some troubleshooting going
-card_stack = []
-for i in range(2):
-    deck = Deck()
-    for card in deck.cards:
-        card_stack.append(card)
-random.shuffle(card_stack)
 
-for card in card_stack:
+# this is for troubleshooting / printing. I may use a
+# variation of this in the class 'Game'
+game = Game()
+for card in game.card_stack:
     print(card)
