@@ -45,42 +45,42 @@ round, make the deck have all of the cards again.
 import random
 
 
-class Cards():
+class Card:
+    """
+    Creating the basis for a playing card
+    """
     def __init__(self, value=1, rank="Ace", suit="Spades"):
+        """
+        :param value: value of  blackjack card
+        :param rank: type of card (e.g. King)
+        :param suit: Diamonds, Hearts, Spades, Clubs
+        """
         self.value = value
         self.rank = rank
         self.suit = suit
 
-    ranks = {"Ace": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6,
-             "7": 7, "8": 8, "9": 9, "10": 10, "Jack": 10,
-             "Queen": 10, "King": 10}
+    def __str__(self):
+        return "{} of {}".format(self.rank, self.suit)
+
+
+class Deck:
+    """
+    Creating the standard 52-card deck
+    """
+    ranks = {"Ace": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7,
+             "8": 8, "9": 9, "10": 10, "Jack": 10, "Queen": 10, "King": 10}
     suits = ["Spades", "Diamonds", "Hearts", "Clubs"]
-    playing_deck = []
 
-    def deck(self):
-        """
-        Building out the playing_deck and storing it in a list.
-        For example, "5 of Spades"
-        As the game progresses, I'll have to find a way to remove
-        cards from the playing_deck and reset to a full deck
-        when they quit or start over.
-        """
+    def __init__(self):
+        self.cards = []
 
-        # building out the playing cards and storing them in - deck
-        for rank in self.ranks:
+        for rank, value in self.ranks.items():
             for suit in self.suits:
-                # I need the values saved, but I don't know where yet.
-                self.playing_deck.append("{} of {}".format(rank, suit))
-                random.shuffle(self.playing_deck)
-
-        # should return a random card from the playing_deck
-        random_card = random.choice(self.playing_deck)
-        return random_card
-
-    def card_value(self):
-        # not sure this is the proper spot for the values...
-        for suit, value in self.ranks.items():
-            return value
+                playing_card = Card()
+                playing_card.rank = rank
+                playing_card.value = value
+                playing_card.suit = suit
+                self.cards.append(playing_card)
 
 
 class Score:
@@ -114,33 +114,13 @@ class Score:
         print("Player chips left: {}".format(p_chips))
         print("Dealer chips left: {}".format(d_chips))
 
+# basic section to get some troubleshooting going
+card_stack = []
+for i in range(2):
+    deck = Deck()
+    for card in deck.cards:
+        card_stack.append(card)
+random.shuffle(card_stack)
 
-def hand():
-    """
-    This is where the hands for the player and dealer will be
-    worked with and stored during each round.
-    """
-    player_cards = []
-    dealer_cards = []
-
-    while len(player_cards) < 2:
-        player_cards.append(Cards().deck())
-
-    while len(dealer_cards) < 2:
-        dealer_cards.append(Cards().deck())
-
-    # case for player 21
-    for card in player_cards:
-        # figure out how to get the values from the Cards().card_value()
-        pass
-
-    # case for dealer 21
-    for card in player_cards:
-        # figure out how to get the values from the Cards().card_value()
-        pass
-    # for testing purposes while I build this out
-    score = Score(90, 90, 20, 18)
-    score.game_score()
-    return "P {} / D {}".format(player_cards, dealer_cards)
-
-print(hand())
+for card in card_stack:
+    print(card)
