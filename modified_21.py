@@ -67,6 +67,7 @@ class Card:
 class Deck:
     """
     Creating the standard 52-card deck
+    I'd also like to see about creating the card value in here.
     """
     ranks = {"Ace": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7,
              "8": 8, "9": 9, "10": 10, "Jack": 10, "Queen": 10, "King": 10}
@@ -85,19 +86,30 @@ class Deck:
 
 
 class Game:
-    def __init__(self):
-        # trying to build out the game.
+    def __init__(self, num_decks=1):
+        """
+        Building out the deck of cards for the player,
+        shuffling the cards, and then allowing the
+        player to draw a card
+
+        :param num_decks: number of decks in play (e.g. 2 decks = 104 cards)
+        """
         self.card_stack = []
-        # this will store the number of playing card decks
-        # the player wants to use (e.g. 4 decks of cards)
-        card_decks = 2
 
         # creating the playing card deck and shuffling the cards
-        for i in range(card_decks):
+        for i in range(num_decks):
             deck = Deck()
             for card in deck.cards:
                 self.card_stack.append(card)
         random.shuffle(self.card_stack)
+
+    # need to figure out how call this. I found this online and
+    # it is something I haven't used before
+    def draw_card(self):
+        return self.card_stack.pop()
+
+    def __len__(self):
+        return len(self.card_stack)
 
 
 # this is for troubleshooting / printing. I may use a
