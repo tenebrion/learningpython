@@ -73,8 +73,15 @@ class Deck:
              "8": 8, "9": 9, "10": 10, "Jack": 10, "Queen": 10, "King": 10}
     suits = ["Spades", "Diamonds", "Hearts", "Clubs"]
 
-    def __init__(self):
+    def __init__(self, num_decks=1):
+        """
+        :param num_decks: this will control how many decks the player wants to use
+                          For example, if there are 2 decks, that's 104 cards in play
+        """
+        # storing the info passed back by class Card
         self.cards = []
+        # storing all the cards in the deck
+        self.card_stack = []
 
         for rank, value in self.ranks.items():
             for suit in self.suits:
@@ -84,36 +91,31 @@ class Deck:
                 playing_card.suit = suit
                 self.cards.append(playing_card)
 
-
-class Game:
-    def __init__(self, num_decks=1):
-        """
-        Building out the deck of cards for the player,
-        shuffling the cards, and then allowing the
-        player to draw a card
-
-        :param num_decks: number of decks in play (e.g. 2 decks = 104 cards)
-        """
-        self.card_stack = []
-
         # creating the playing card deck and shuffling the cards
         for i in range(num_decks):
-            deck = Deck()
-            for card in deck.cards:
+            for card in self.cards:
                 self.card_stack.append(card)
         random.shuffle(self.card_stack)
 
     # need to figure out how call this. I found this online and
-    # it is something I haven't used before
+    # it is something I haven't used before (.pop())
     def draw_card(self):
         return self.card_stack.pop()
 
+    # thought this was an interesting way to keep tabs on the number of
+    # cards in the deck. I also found it online (Stackoverflow I think)
     def __len__(self):
         return len(self.card_stack)
 
 
-# this is for troubleshooting / printing. I may use a
-# variation of this in the class 'Game'
-game = Game()
-for card in game.card_stack:
-    print(card)
+class Game:
+    # this is for troubleshooting / printing. I may use a
+    # variation of this in the class 'Game'
+    deck = Deck()
+    for a_card in deck.card_stack:
+        print(a_card)
+
+    print("\nPlayer drew {}".format(deck.draw_card()))
+    print("\nThere are {} cards left".format(deck.__len__()))
+
+Game()
