@@ -81,7 +81,7 @@ class Deck:
         # storing the info passed back by class Card
         self.cards = []
         # storing all the cards in the deck
-        self.card_stack = []
+        self.deck_cards = []
 
         for rank, value in self.ranks.items():
             for suit in self.suits:
@@ -94,28 +94,74 @@ class Deck:
         # creating the playing card deck and shuffling the cards
         for i in range(num_decks):
             for card in self.cards:
-                self.card_stack.append(card)
-        random.shuffle(self.card_stack)
+                self.deck_cards.append(card)
+        random.shuffle(self.deck_cards)
 
-    # need to figure out how call this. I found this online and
-    # it is something I haven't used before (.pop())
+    # drawing the last card in the deck and removing it from the 'stack'
     def draw_card(self):
-        return self.card_stack.pop()
+        return self.deck_cards.pop()
 
     # thought this was an interesting way to keep tabs on the number of
     # cards in the deck. I also found it online (Stackoverflow I think)
     def __len__(self):
-        return len(self.card_stack)
+        return len(self.deck_cards)
+
+
+class Score:
+    """
+    This class will keep track of the player and dealer scores. When the
+    game is over, is will pass along a ranking (e.g. 92 points = A)
+    """
+    def __init__(self, score):
+        self.score = score
+
+    def ranking(self):
+        if self.score >= 90:
+            return "A"
+        elif self.score >= 80:
+            return "B"
+        elif self.score >= 70:
+            return "C"
+        elif self.score >= 60:
+            return "D"
+        else:
+            return "F"
+
+
+class Hand:
+    """
+    This is where we'll store the player and dealer hands
+    """
+    def __init__(self):
+        # this will initialize anything I'm using
+        self.player_hand = []
+        self.dealer_hand = []
+
+        while len(self.player_hand) < 2:
+            self.player_hand.append(Deck().draw_card())
+
+        while len(self.dealer_hand) <= 2:
+            self.dealer_hand.append(Deck().draw_card())
+
+    def add_to_hand(self):
+        for items in self.player_hand:
+            print("\n{}".format(items))
+            #return "\n{}".format(items)
+
+    def move(self):
+        # this will enable things like hit, stay, bust, etc.
+        pass
 
 
 class Game:
     # this is for troubleshooting / printing. I may use a
     # variation of this in the class 'Game'
     deck = Deck()
-    for a_card in deck.card_stack:
+    for a_card in deck.deck_cards:
         print(a_card)
 
-    print("\nPlayer drew {}".format(deck.draw_card()))
+    Hand().add_to_hand()
+    # when cards are added to the list, they aren't getting removed yet
     print("\nThere are {} cards left".format(deck.__len__()))
 
 Game()
