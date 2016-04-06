@@ -97,8 +97,11 @@ class Deck:
                 self.deck_cards.append(card)
         random.shuffle(self.deck_cards)
 
-    # drawing the last card in the deck and removing it from the 'stack'
     def draw_card(self):
+        """
+        drawing the last card in the deck and removing it from the 'stack'
+        :return:
+        """
         return self.deck_cards.pop()
 
     # thought this was an interesting way to keep tabs on the number of
@@ -116,6 +119,10 @@ class Score:
         self.score = score
 
     def ranking(self):
+        """
+        Simple rating system for the end score
+        :return:
+        """
         if self.score >= 90:
             return "A"
         elif self.score >= 80:
@@ -144,18 +151,27 @@ class Hand:
             self.dealer_hand.append(Deck().draw_card())
 
     def add_to_hand(self):
+        """
+        This will add cards to the player/dealer hand
+        :return:
+        """
         for items in self.player_hand:
             print("\n{}".format(items))
             #return "\n{}".format(items)
 
     def move(self):
-        # this will enable things like hit, stay, bust, etc.
+        """
+        This will enable things like hit, stay, bust, etc.
+        :return:
+        """
         pass
 
 
 class Game:
-    # this is for troubleshooting / printing. I may use a
-    # variation of this in the class 'Game'
+    """
+    Right now while I figure things out, these are here to help
+    test the classes I'm making.
+    """
     deck = Deck()
     for a_card in deck.deck_cards:
         print(a_card)
