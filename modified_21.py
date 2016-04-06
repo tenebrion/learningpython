@@ -115,21 +115,21 @@ class Score:
     This class will keep track of the player and dealer scores. When the
     game is over, is will pass along a ranking (e.g. 92 points = A)
     """
-    def __init__(self, score):
-        self.score = score
+    def __init__(self):
+        self.scores = []
 
-    def ranking(self):
+    def ranking(self, score):
         """
         Simple rating system for the end score
         :return:
         """
-        if self.score >= 90:
+        if score >= 90:
             return "A"
-        elif self.score >= 80:
+        elif score >= 80:
             return "B"
-        elif self.score >= 70:
+        elif score >= 70:
             return "C"
-        elif self.score >= 60:
+        elif score >= 60:
             return "D"
         else:
             return "F"
@@ -179,5 +179,15 @@ class Game:
     Hand().add_to_hand()
     # when cards are added to the list, they aren't getting removed yet
     print("\nThere are {} cards left".format(deck.__len__()))
+
+    for turn in range(5):
+        print("Turn: ", turn + 1)
+
+        if turn == 4:
+            player_score = 82
+            letter_grade = Score().ranking(player_score)
+            print("Game Over. \n"
+                  "Your final score is {}, "
+                  "which results in the letter grade: {}".format(player_score, letter_grade))
 
 Game()
