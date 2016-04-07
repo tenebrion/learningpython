@@ -22,4 +22,4 @@ def scrabble_score(word):
         total += score[char]
     print(total)  # printing out our total
 
-scrabble_score("quiddich")
+scrabble_score("spaceballs")
