@@ -62,13 +62,14 @@ def deck():
     return cards
 
 
-def stack_of_cards(num_decks):
+def stack_of_cards():
     """
     Building out the stack of cards based on the number of decks a player
     wants to use. For example, 2 decks = 104 cards.
     :param num_decks: How many decks does the player want to use?
     :return:
     """
+    num_decks = 2
     deck_of_cards = []
     for i in range(num_decks):
         for cards_in_deck in deck():
@@ -81,6 +82,14 @@ def hand():
     This is where we'll see what's in the dealer / player hands.
     :return:
     """
+    p_cards = [stack_of_cards()]
+    current_hand = []
+    possible_moves = []
+
+    while len(current_hand) < 2:
+        current_hand.append(p_cards.pop())
+
+    return current_hand
 
 
 def game():
@@ -88,9 +97,7 @@ def game():
     The meat of the program will run from here
     :return:
     """
-    decks_in_play = int(input("How many decks of cards should we use? : "))
-    for stuff in stack_of_cards(decks_in_play):
-        print(stuff)
-
+    for card in hand():
+        print(card)
 
 game()
