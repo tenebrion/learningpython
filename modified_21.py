@@ -45,23 +45,52 @@ round, make the deck have all of the cards again.
 import random
 
 
-def make_deck(num_decks):
+def deck():
     """
-        Creating the standard 52-card deck
-        I'd also like to see about creating the card value in here.
-        """
+    Creating the standard 52-card deck (without jokers)
+    """
     ranks = {"Ace": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7,
              "8": 8, "9": 9, "10": 10, "Jack": 10, "Queen": 10, "King": 10}
     suits = ["Spades", "Diamonds", "Hearts", "Clubs"]
     cards = []
 
-    for i in range(num_decks):
-        for rank, value in ranks.items():
-            for suit in suits:
-                cards.append("{} of {}".format(rank, suit))
+    for rank, value in ranks.items():
+        for suit in suits:
+            cards.append("{} of {}".format(rank, suit))
 
     random.shuffle(cards)
     return cards
 
-for card in make_deck(2):
-    print(card)
+
+def stack_of_cards(num_decks):
+    """
+    Building out the stack of cards based on the number of decks a player
+    wants to use. For example, 2 decks = 104 cards.
+    :param num_decks: How many decks does the player want to use?
+    :return:
+    """
+    deck_of_cards = []
+    for i in range(num_decks):
+        for cards_in_deck in deck():
+            deck_of_cards.append(cards_in_deck)
+    return deck_of_cards
+
+
+def hand():
+    """
+    This is where we'll see what's in the dealer / player hands.
+    :return:
+    """
+
+
+def game():
+    """
+    The meat of the program will run from here
+    :return:
+    """
+    decks_in_play = int(input("How many decks of cards should we use? : "))
+    for stuff in stack_of_cards(decks_in_play):
+        print(stuff)
+
+
+game()
