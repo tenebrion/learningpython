@@ -12,29 +12,27 @@ import time
 
 start_time = time.time()
 
-#===============================================================================
-# Script is only set to take 1 sentence at a time.
-# Usage: palindrome("input sentence")
-#===============================================================================
+
 def palindrome(sentence):
-    #need to remove all spaces, set the word to lower case
+    """
+    Simple method to filter out spaces and punctuation and check if
+    the sentence is a palindrome
+    :param sentence: user generated sentence
+    :return:
+    """
     sentence = sentence.lower().replace(" ", "")
-    #defining the punctuation to use from our string import
     punct = set(string.punctuation)
-    #removing all punctuation from our sentence
     sentence = ''.join(x for x in sentence if x not in punct)
     
-    #if the sentence is the same as the sentence in reverse, print message
+    # if the sentence is the same as the sentence in reverse, print message
     if sentence == sentence[::-1]:
-        #should show Palindrome with the sentence after it
-        return ("Palindrome: %s" % (sentence))
-    else: #if it isn't the same forwards and backwards
-        #print a message stating that it isn't a palindrome
-        return ("Not a Palindrome: %s" % (sentence))
+        return "Palindrome: {}".format(sentence)
+    else:
+        return "Not a Palindrome: {}".format(sentence)
 
-#a couple print methods to test our methods.
+# a couple print methods to test our methods.
 print(palindrome("A man, a plan, a canal: panama"))
 print(palindrome("tree, houses, are. cool'"))
 end_time = time.time()
 total_time = (end_time - start_time)
-print("Completed in %g seconds" % (total_time))
+print("Completed in {} seconds".format(total_time))
