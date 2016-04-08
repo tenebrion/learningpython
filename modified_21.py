@@ -62,19 +62,35 @@ def deck():
     return cards
 
 
-def stack_of_cards():
+class StackOfCards:
     """
     Building out the stack of cards based on the number of decks a player
     wants to use. For example, 2 decks = 104 cards.
-    :param num_decks: How many decks does the player want to use?
-    :return:
     """
-    num_decks = 2
     deck_of_cards = []
-    for i in range(num_decks):
-        for cards_in_deck in deck():
-            deck_of_cards.append(cards_in_deck)
-    return deck_of_cards
+
+    def __init__(self, num_decks=1):
+        self.num_decks = num_decks
+
+        for i in range(self.num_decks):
+            for cards_in_deck in deck():
+                self.deck_of_cards.append(cards_in_deck)
+
+    @property
+    def draw_card(self):
+        """
+        adding a card to the hand and removing it from the StackOfCards
+        :return:
+        """
+        return self.deck_of_cards.pop()
+
+    @property
+    def __len__(self):
+        """
+        getting the number of cards left in the deck.
+        :return:
+        """
+        return len(self.deck_of_cards)
 
 
 def hand():
@@ -82,14 +98,40 @@ def hand():
     This is where we'll see what's in the dealer / player hands.
     :return:
     """
-    p_cards = [stack_of_cards()]
     current_hand = []
     possible_moves = []
+    stack = StackOfCards()
 
     while len(current_hand) < 2:
-        current_hand.append(p_cards.pop())
+        current_hand.append(stack.draw_card)
 
     return current_hand
+
+
+class Score:
+    """
+    This class will keep track of the player and dealer scores. When the
+    game is over, is will pass along a ranking (e.g. 92 points = A)
+    """
+    def __init__(self):
+        self.scores = []
+
+    @staticmethod
+    def ranking(score):
+        """
+        Simple rating system for the end score
+        :return:
+        """
+        if score >= 90:
+            return "A"
+        elif score >= 80:
+            return "B"
+        elif score >= 70:
+            return "C"
+        elif score >= 60:
+            return "D"
+        else:
+            return "F"
 
 
 def game():
@@ -99,5 +141,6 @@ def game():
     """
     for card in hand():
         print(card)
+    print(StackOfCards().__len__)
 
 game()
