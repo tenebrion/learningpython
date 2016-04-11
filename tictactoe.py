@@ -61,7 +61,6 @@ for turn in range(1, 9):
             if 1 <= move <= 9 and game_board[str(move)] == " ":
                 game_board[str(move)] = player_turn
                 while turn >= 5:
-                    check_winner()
                     if check_winner():
                         print("{} has won the game!".format(player_turn))
                         exit()
@@ -83,7 +82,6 @@ for turn in range(1, 9):
         player_turn = "X"
 
     if turn == 9:
-        check_winner()
         if check_winner():
             print("{} has won the game!".format(player_turn))
         else:
