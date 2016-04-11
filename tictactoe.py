@@ -35,8 +35,7 @@ def check_winner():
                      game_board["1"] == game_board["5"] == game_board["9"],
                      game_board["3"] == game_board["5"] == game_board["7"])
 
-    # testing the output - need to figure out how to check specific rows
-    # and print out what letter wins!
+    # If a line reads True, we have a winner.
     for row in possible_wins:
         if row:
             return True
@@ -56,8 +55,8 @@ for turn in range(1, 9):
     while True:
         print("It is {}'s turn. Where would you like to move?".format(player_turn))
         try:
-            # I'm hacking together a cheap way to verify inputs. I've thought about
-            # making the board input text based (e.g. TL, TM, TR, ML, MM, MR, LL, LM, LR)
+            # Validating the input, making sure it's within our game range and that the
+            # box is empty.
             move = int(input())
             if 1 <= move <= 9 and game_board[str(move)] == " ":
                 game_board[str(move)] = player_turn
