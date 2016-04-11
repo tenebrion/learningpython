@@ -23,7 +23,6 @@ def check_winner():
     """
     Just a placeholder (something). This method will check the game_board
     and look for various wins (3 in a row).
-    :param something: not sure what I'm going to use here
     :return:
     """
     # mapping out possible win combinations
@@ -36,9 +35,13 @@ def check_winner():
                      game_board["1"] == game_board["5"] == game_board["9"],
                      game_board["3"] == game_board["5"] == game_board["7"])
 
-    # testing the output
+    # testing the output - need to figure out how to check specific rows
+    # and print out what letter wins!
     for row in possible_wins:
-        print(row)
+        if row:
+            return True
+        else:
+            return False
 
 
 player_turn = "X"
@@ -75,4 +78,7 @@ for i in range(9):
         player_turn = "X"
 
 print_board(game_board)
-check_winner()
+if check_winner():
+    print("We have a winner!")
+else:
+    print('only losers here')
