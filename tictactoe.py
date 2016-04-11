@@ -23,7 +23,6 @@ def check_winner():
     """
     Just a placeholder (something). This method will check the game_board
     and look for various wins (3 in a row).
-    :param something: not sure what I'm going to use here
     :return:
     """
     # mapping out possible win combinations
@@ -36,9 +35,13 @@ def check_winner():
                      game_board["1"] == game_board["5"] == game_board["9"],
                      game_board["3"] == game_board["5"] == game_board["7"])
 
-    # testing the output
+    # testing the output - need to figure out how to check specific rows
+    # and print out what letter wins!
     for row in possible_wins:
-        print(row)
+        if row:
+            return True
+        else:
+            return False
 
 
 player_turn = "X"
@@ -48,7 +51,7 @@ print("This is the classic game of tic tac toe.\n"
       "\nMiddle row = 4, 5, or 6"
       "\nBottom row = 7, 8, or 9\n")
 
-for i in range(9):
+for turn in range(1, 9):
     print_board(game_board)
     while True:
         print("It is {}'s turn. Where would you like to move?".format(player_turn))
@@ -56,11 +59,17 @@ for i in range(9):
             # I'm hacking together a cheap way to verify inputs. I've thought about
             # making the board input text based (e.g. TL, TM, TR, ML, MM, MR, LL, LM, LR)
             move = int(input())
-            if 1 <= move <= 9:
+            if 1 <= move <= 9 and game_board[str(move)] == " ":
                 game_board[str(move)] = player_turn
+                while turn >= 5:
+                    check_winner()
+                    if check_winner():
+                        print("{} has won the game!".format(player_turn))
+                        exit()
+                    break
                 break
-            elif 0 <= move <= 10:
-                print("Your selection is outside the range, please try again.")
+            elif game_board[str(move)] != " ":
+                print("Please select a box that is empty")
                 continue
             else:
                 print("Please enter an integer between 1 - 9")
@@ -74,5 +83,9 @@ for i in range(9):
     else:
         player_turn = "X"
 
-print_board(game_board)
-check_winner()
+    if turn == 9:
+        check_winner()
+        if check_winner():
+            print("{} has won the game!".format(player_turn))
+        else:
+            print("Tie game!")
