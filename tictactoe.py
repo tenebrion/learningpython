@@ -26,18 +26,18 @@ def check_winner():
     :return:
     """
     # mapping out possible win combinations
-    possible_wins = (game_board["1"] == game_board["2"] == game_board["3"],
-                     game_board["4"] == game_board["5"] == game_board["6"],
-                     game_board["7"] == game_board["8"] == game_board["9"],
-                     game_board["1"] == game_board["4"] == game_board["7"],
-                     game_board["2"] == game_board["5"] == game_board["8"],
-                     game_board["3"] == game_board["6"] == game_board["9"],
-                     game_board["1"] == game_board["5"] == game_board["9"],
-                     game_board["3"] == game_board["5"] == game_board["7"])
+    possible_wins = ((game_board["1"] == game_board["2"] == game_board["3"]),
+                     (game_board["4"] == game_board["5"] == game_board["6"]),
+                     (game_board["7"] == game_board["8"] == game_board["9"]),
+                     (game_board["1"] == game_board["4"] == game_board["7"]),
+                     (game_board["2"] == game_board["5"] == game_board["8"]),
+                     (game_board["3"] == game_board["6"] == game_board["9"]),
+                     (game_board["1"] == game_board["5"] == game_board["9"]),
+                     (game_board["3"] == game_board["5"] == game_board["7"]))
 
     # If a line reads True, we have a winner.
     for row in possible_wins:
-        if row:
+        if row and game_board:
             return True
         else:
             return False
@@ -60,11 +60,9 @@ for turn in range(1, 9):
             move = int(input())
             if 1 <= move <= 9 and game_board[str(move)] == " ":
                 game_board[str(move)] = player_turn
-                while turn >= 5:
-                    if check_winner():
-                        print("{} has won the game!".format(player_turn))
-                        exit()
-                    break
+                if turn >= 5 and check_winner():
+                    print("{} has won the game!".format(player_turn))
+                    exit()
                 break
             elif game_board[str(move)] != " ":
                 print("Please select a box that is empty")
@@ -81,8 +79,7 @@ for turn in range(1, 9):
     else:
         player_turn = "X"
 
-    if turn == 9:
-        if check_winner():
-            print("{} has won the game!".format(player_turn))
-        else:
-            print("Tie game!")
+    if turn == 9 and check_winner():
+        print("{} has won the game!".format(player_turn))
+    else:
+        print("Tie game!")
