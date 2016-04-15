@@ -5,16 +5,15 @@ import json
 from urllib.request import urlopen
 import webbrowser
 
-
+# here is the page url format and the url of the 'random' page.
 page = "https://en.wikipedia.org/wiki?curid="
 url = "https://en.wikipedia.org//w/api.php?action=query&format=json&list=random"
-keep_going = True
 
 
 def random_page():
     """
     simple method to randomly fetch new pages
-    :return:
+    :return
     """
     response = urlopen(url).read().decode('utf8')
     obj = json.loads(response)
@@ -23,8 +22,8 @@ def random_page():
 
 def open_page(some_url):
     """
-    testing
-    :return:
+    just a simple method to open a web browser link
+    :param some_url: passing te full url to a wikipedia page
     """
     webbrowser.open(some_url)
 
