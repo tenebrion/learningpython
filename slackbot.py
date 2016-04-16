@@ -7,63 +7,56 @@ forecast for that zip code.
 from urllib.request import urlopen
 
 
-class ChatBot:
+slack_api = "https://slack.com/api/"
+post_msg = "chat.postMessage?"
+token = "token=xoxp-8994446855-8994371508-35172505877-b6710faf39"
+chat_channel = "&channel=C08V8D4RM"
+message = "&text=Changing message formatting on my script".replace(" ", "%20")
+user = "&username=Super Bot".replace(" ", "%20")
+pretty_print = "&pretty=1"
+# general = "rtm.start"
+# channels = "channels.join"
+# channel_name = "&name=general"
+
+
+def build_url(api, msg_format, slack_token, channel, msg, bot_user, printing):
     """
-    Building out the foundations for a simple chat bot.
+    Creating the format for the URL
+    :param api: This is the api URL to call
+    :param msg_format: Currently set to postMessage, but there is also a getMessage to read messages
+    :param slack_token: My unique token
+    :param channel: General chat channel, but I could set it to the Github channel I have.
+    :param msg: Message for the room. Make sure to include %20 for spaces
+    :param bot_user: currently set to Super Bot
+    :param printing: This prints out the response neatly. A future use is to check for errors..
+    :return:
     """
-    slack_url = "https://slack.com/api/"
-    token = "?token=xoxp-8994446855-8994371508-35172505877-b6710faf39"
-    pretty_print = "&pretty=1"
-
-    def __init__(self, chat_type, channel, message, user="&username=Super%20Bot"):
-        self.chat_type = chat_type
-        self.message = message
-        self.channel = channel
-        self.user = user
-
-    def build_url(self):
-        """
-        Building out the url to use
-        :return:
-        """
-        if self.chat_type == "chat.postMessage":
-            url = urlopen(self.slack_url + self.chat_type + self.token +
-                          self.channel, self.user, self.pretty_print).read().decode("utf8")
-            self.send_message(url)
-        else:
-            url = urlopen(self.slack_url + self.chat_type + self.token +
-                          self.channel, self.user, self.pretty_print).read().decode("utf8")
-            self.read_message(url)
-
-    @staticmethod
-    def send_message(link):
-        """
-        This will send the message to slack
-        :param link:
-        :return:
-        """
-        print(link)
-
-    @staticmethod
-    def read_message(link):
-        """
-        Reading messages
-        :param link: url for Slack
-        :return:
-        """
-        print(link)
+    if msg_format == "chat.postMessage":
+        url = urlopen(api + msg_format + slack_token +
+                      channel + msg + bot_user + printing).read().decode("utf8")
+        send_message(url)
+    else:
+        url = urlopen(api + msg_format + slack_token +
+                      channel + msg + bot_user + printing).read().decode("utf8")
+        read_message(url)
 
 
-general = "rtm.start"
-channels = "channels.join"
-channel_name = "&name=general"
-msg = "Testing%20with%20a%20pretty%20python%20class!"
-msg_channel = "chat.postMessage"
-chat_channel = "&channel=general"
+def send_message(link):
+    """
+    This will send the message to slack
+    :param link:
+    :return:
+    """
+    print(link)
 
-# info = urlopen(slack_url + general + token + pretty_print).read().decode("utf8")
-# open_general_channel = urlopen(slack_url + channels + token + channel_name + pretty_print).read().decode("utf8")
-# test_chat = urlopen(slack_url + msg_channel + token + chat_channel + msg + user + pretty_print).read().decode("utf8")
 
-create_life = ChatBot(msg_channel, chat_channel, msg)
-create_life.build_url()
+def read_message(link):
+    """
+    Reading messages
+    :param link: url for Slack
+    :return:
+    """
+    print(link)
+
+
+build_url(slack_api, post_msg, token, chat_channel, message, user, pretty_print)
