@@ -44,15 +44,33 @@ def weather_url(user_weather_url, user_location):
     return "{}{}{}{}".format(url, user_weather_url, str(user_location), api_key)
 
 
+def convert_temp(temperature):
+    """
+    Simple kelvin to fahrenheit conversion
+    :param temperature: passing in a kelvin temperature
+    :return:
+    """
+    return 1.8 * (temperature - 273) + 32
+
 if user_input.isdigit():
     weather = weather_url(zip_code_url, user_input)
     open_weather = urlopen(weather).read().decode("utf8")
     read_json = json.loads(open_weather)
-    # print(read_json)
-    print(json.dumps(read_json, indent=4, sort_keys=True))
+    # print(json.dumps(read_json, indent=4, sort_keys=True))
+    min_temp = convert_temp(read_json["main"]["temp_min"])
+    max_temp = convert_temp(read_json["main"]["temp_max"])
+    current_temp = convert_temp(read_json["main"]["temp"])
+    print("Current Temperature: {}\n"
+          "Today's High: {}\n"
+          "Today's Low: {}".format(current_temp, max_temp, min_temp))
 else:
     weather = weather_url(city_url, user_input)
-    open_weather = urlopen(weather).read().decode("utf8")
+    open_weather = urlopen(weather).read()
     read_json = json.loads(open_weather)
-    # print(read_json)
-    print(json.dumps(read_json, indent=4, sort_keys=True))
+    # print(json.dumps(read_json, indent=4, sort_keys=True))
+    min_temp = convert_temp(read_json["main"]["temp_min"])
+    max_temp = convert_temp(read_json["main"]["temp_max"])
+    current_temp = convert_temp(read_json["main"]["temp"])
+    print("Current Temperature: {}\n"
+          "Today's High: {}\n"
+          "Today's Low: {}".format(current_temp, max_temp, min_temp))
