@@ -1,12 +1,12 @@
 """
 What's the Weather?
 
-Goal
+Goal:
 Create a program that pulls data from OpenWeatherMap.org that prints out information about the current weather,
 such as the high, the low, and the amount of rain for wherever you live. Depending on how skilled you are,
 you can actually do some neat stuff with this project.
 
-Subgoals
+Sub-goals:
 Print out data for the next 5-7 days so you have a 5 day/week long forecast.
 Print the data to another file that you can open up and view at, instead of viewing the
 information in the command line.
@@ -24,14 +24,35 @@ Don't like Celsius? Add &units=imperial to the end of the URL of the API to rece
 import json
 from urllib.request import urlopen
 
-url = "http://api.openweathermap.org/data/2.5/"
-api_key = "&APPID=e98088861de4eec95eff5e86adaae2b2"
-current_weather_zip = "weather?zip="
-current_weather_city = "weather?q="
-user_city = input("What city would you like to get the current weather for? : ")
-user_zip = input("What zip code would you like to get the current weather for? : ")
+print("Welcome to our weather station.")
+print("Please enter the city or zip code you would like to check the current temperatures for:")
+user_input = input()
+zip_code_url = "weather?zip="
+city_url = "weather?q="
 
-test = urlopen(url + current_weather_zip + "85226" + api_key).read().decode("utf8")
-obj = json.loads(test)
 
-print(obj)
+def weather_url(user_weather_url, user_location):
+    """
+    Building out the url since this gets repeated a bit
+    :param user_weather_url: This will be a zip code url or a city url (for the API query)
+    :param user_location: This will be a zip code or a city name
+    :return:
+    """
+    url = "http://api.openweathermap.org/data/2.5/"
+    api_key = "&APPID=e98088861de4eec95eff5e86adaae2b2"
+
+    return "{}{}{}{}".format(url, user_weather_url, str(user_location), api_key)
+
+
+if user_input.isdigit():
+    weather = weather_url(zip_code_url, user_input)
+    open_weather = urlopen(weather).read().decode("utf8")
+    read_json = json.loads(open_weather)
+    # print(read_json)
+    print(json.dumps(read_json, indent=4, sort_keys=True))
+else:
+    weather = weather_url(city_url, user_input)
+    open_weather = urlopen(weather).read().decode("utf8")
+    read_json = json.loads(open_weather)
+    # print(read_json)
+    print(json.dumps(read_json, indent=4, sort_keys=True))
