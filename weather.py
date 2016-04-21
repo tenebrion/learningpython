@@ -44,6 +44,16 @@ def weather_url(user_weather_url, user_location):
     return "{}{}{}{}".format(url, user_weather_url, str(user_location), api_key)
 
 
+def get_outside_outlook(weather_description):
+    """
+    Returning the outside weather description (e.g. overcast clouds)
+    :param weather_description: This should be a list with a dictionary inside it
+    :return:
+    """
+    for entries in weather_description:
+        return entries["description"]
+
+
 def convert_temp(temperature):
     """
     Simple kelvin to fahrenheit conversion
@@ -52,25 +62,46 @@ def convert_temp(temperature):
     """
     return 1.8 * (temperature - 273) + 32
 
+
+def deg_to_compass(num):
+    """
+    This will convert wind speed in degrees to the typical 'compass' directions
+    :param num: This will be the degrees in which the wind is blowing
+    :return:
+    """
+    convert = int((num / 22.5) + .5)
+    compass = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE",
+               "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
+    return compass[(convert % 16)]
+
+
 if user_input.isdigit():
     weather = weather_url(zip_code_url, user_input)
     open_weather = urlopen(weather).read().decode("utf8")
     read_json = json.loads(open_weather)
     # print(json.dumps(read_json, indent=4, sort_keys=True))
-    min_temp = convert_temp(read_json["main"]["temp_min"])
-    max_temp = convert_temp(read_json["main"]["temp_max"])
+    outside = get_outside_outlook(read_json["weather"])
+    # min_temp = convert_temp(read_json["main"]["temp_min"])
+    # max_temp = convert_temp(read_json["main"]["temp_max"])
+    wind_speed = read_json["wind"]["speed"]
+    wind_direction = deg_to_compass(read_json["wind"]["deg"])
     current_temp = convert_temp(read_json["main"]["temp"])
-    print("Current Temperature: {}\n"
-          "Today's High: {}\n"
-          "Today's Low: {}".format(current_temp, max_temp, min_temp))
+    print("Current Temperature: {0:.2f}\n"
+          "Sky: {}\n"
+          "Wind speed: {} MPH\n"
+          "Wind direction: {}".format(current_temp, outside, wind_speed, wind_direction))
 else:
     weather = weather_url(city_url, user_input)
     open_weather = urlopen(weather).read()
     read_json = json.loads(open_weather)
     # print(json.dumps(read_json, indent=4, sort_keys=True))
-    min_temp = convert_temp(read_json["main"]["temp_min"])
-    max_temp = convert_temp(read_json["main"]["temp_max"])
+    outside = get_outside_outlook(read_json["weather"])
+    # min_temp = convert_temp(read_json["main"]["temp_min"])
+    # max_temp = convert_temp(read_json["main"]["temp_max"])
+    wind_speed = read_json["wind"]["speed"]
+    wind_direction = deg_to_compass(read_json["wind"]["deg"])
     current_temp = convert_temp(read_json["main"]["temp"])
-    print("Current Temperature: {}\n"
-          "Today's High: {}\n"
-          "Today's Low: {}".format(current_temp, max_temp, min_temp))
+    print("Current Temperature: {0:.2f}\n"
+          "Sky: {}\n"
+          "Wind speed: {} MPH\n"
+          "Wind direction: {}".format(current_temp, outside, wind_speed, wind_direction))
