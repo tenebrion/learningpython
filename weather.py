@@ -16,6 +16,9 @@ more interesting.
 import json
 from urllib.request import urlopen
 import datetime
+from tinydb import TinyDB
+from tinydb import Query
+from misc_stuff import apis
 
 print("Welcome to our weather station.")
 print("Please enter the city or zip code you would like to check the current temperatures for:")
@@ -29,7 +32,7 @@ def weather_url(user_entry):
     :return:
     """
     url = "http://api.openweathermap.org/data/2.5/"
-    api_key = "&APPID=e98088861de4eec95eff5e86adaae2b2"
+    api_key = apis.API.open()
     zip_code_url = "weather?zip="
     city_url = "weather?q="
 
@@ -80,18 +83,23 @@ def convert_date_time(dt):
         return datetime.datetime.fromtimestamp(int(stuff["dt"])).strftime('%Y-%m-%d %H:%M:%S')
 
 
-weather = weather_url(user_input)
-open_weather = urlopen(weather).read().decode("utf8")
-read_json = json.loads(open_weather)
-# print(json.dumps(read_json, indent=4, sort_keys=True))
-outside = get_outside_outlook(read_json["weather"])
-# min_temp = convert_temp(read_json["main"]["temp_min"])
-# max_temp = convert_temp(read_json["main"]["temp_max"])
-wind_speed = read_json["wind"]["speed"]
-wind_direction = deg_to_compass(read_json["wind"]["deg"])
-current_temp = convert_temp(read_json["main"]["temp"])
+def print_weather():
+    """
+    building out the weather forecast.
+    :return:
+    """
+    weather = weather_url(user_input)
+    open_weather = urlopen(weather).read().decode("utf8")
+    read_json = json.loads(open_weather)
+    # print(json.dumps(read_json, indent=4, sort_keys=True))
+    outside = get_outside_outlook(read_json["weather"])
+    # min_temp = convert_temp(read_json["main"]["temp_min"])
+    # max_temp = convert_temp(read_json["main"]["temp_max"])
+    wind_speed = read_json["wind"]["speed"]
+    wind_direction = deg_to_compass(read_json["wind"]["deg"])
+    current_temp = convert_temp(read_json["main"]["temp"])
 
-print("Current Temperature: {:.2f}\n"
-      "Sky: {}\n"
-      "Wind speed: {} MPH\n"
-      "Wind direction: {}".format(current_temp, outside, wind_speed, wind_direction))
+    print("Current Temperature: {:.2f}\n"
+          "Sky: {}\n"
+          "Wind speed: {} MPH\n"
+          "Wind direction: {}".format(current_temp, outside, wind_speed, wind_direction))
