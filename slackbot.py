@@ -9,8 +9,8 @@ from urllib.request import urlopen
 
 slack_api = "https://slack.com/api/"
 post_msg = "chat.postMessage?"
-token = "token=xoxp-8994446855-8994371508-35172505877-b6710faf39"
-rlsbot = "token=xoxb-35770302082-eiN6XauYmB7oyPBu8CrFti5g"
+token = "<fill in>"
+rlsbot = "<fill in>"
 chat_channel = "&channel=C08V8D4RM"
 message = "&text=Why doesn't anyone respond to emails these days?".replace(" ", "%20")
 user = "&username=Super Bot".replace(" ", "%20")

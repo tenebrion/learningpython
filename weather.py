@@ -29,7 +29,7 @@ def weather_url(user_entry):
     :return:
     """
     url = "http://api.openweathermap.org/data/2.5/"
-    api_key = "&APPID=e98088861de4eec95eff5e86adaae2b2"
+    api_key = "<fill in>"
     zip_code_url = "weather?zip="
     city_url = "weather?q="
 
