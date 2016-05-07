@@ -16,8 +16,6 @@ more interesting.
 import json
 from urllib.request import urlopen
 import datetime
-from tinydb import TinyDB
-from tinydb import Query
 from misc_stuff import apis
 
 print("Welcome to our weather station.")
@@ -32,7 +30,7 @@ def weather_url(user_entry):
     :return:
     """
     url = "http://api.openweathermap.org/data/2.5/"
-    api_key = apis.API.open()
+    api_key = apis.open_weather()
     zip_code_url = "weather?zip="
     city_url = "weather?q="
 
@@ -103,3 +101,5 @@ def print_weather():
           "Sky: {}\n"
           "Wind speed: {} MPH\n"
           "Wind direction: {}".format(current_temp, outside, wind_speed, wind_direction))
+
+print_weather()
