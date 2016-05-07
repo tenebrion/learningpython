@@ -5,12 +5,13 @@ For example, what's the weather today 90210 (or a variation of that) and it prin
 forecast for that zip code.
 """
 from urllib.request import urlopen
+from misc_stuff import apis
 
 
 slack_api = "https://slack.com/api/"
 post_msg = "chat.postMessage?"
-token = "<fill in>"
-rlsbot = "<fill in>"
+token = apis.slack()
+rlsbot = apis.rls()
 chat_channel = "&channel=C08V8D4RM"
 message = "&text=Why doesn't anyone respond to emails these days?".replace(" ", "%20")
 user = "&username=Super Bot".replace(" ", "%20")
