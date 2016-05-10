@@ -17,10 +17,24 @@ import json
 from urllib.request import urlopen
 import datetime
 from misc_stuff import apis
+import re
 
 print("Welcome to our weather station.")
 print("Please enter the city or zip code you would like to check the current temperatures for:")
-user_input = input()
+original_user_input = input()
+
+
+def remove_spaces(user_data):
+    """
+    Simple regex to remove all spaces in the user's input
+    :param user_data: city or zip code
+    :return: This should return any values without spaces
+    """
+    fixed_user_input = re.sub(r"\s+", "", user_data)
+    return fixed_user_input
+
+
+user_input = remove_spaces(original_user_input)
 
 
 def weather_url(user_entry):
