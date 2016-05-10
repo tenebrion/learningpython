@@ -15,7 +15,7 @@ more interesting.
 """
 import json
 from urllib.request import urlopen
-import datetime
+from datetime import datetime
 from misc_stuff import apis
 import re
 
@@ -44,6 +44,7 @@ def weather_url(user_entry):
     :return:
     """
     url = "http://api.openweathermap.org/data/2.5/"
+    # for obvious reasons, the API key is stored in a separate file (tinydb)
     api_key = apis.open_weather()
     zip_code_url = "weather?zip="
     city_url = "weather?q="
@@ -91,11 +92,10 @@ def convert_date_time(dt):
     param: dt: stands for date / time in the JSON file I'm reading
     return:
     """
-    for stuff in dt:
-        return datetime.datetime.fromtimestamp(int(stuff["dt"])).strftime('%Y-%m-%d %H:%M:%S')
+    return datetime.fromtimestamp(dt).strftime("%Y-%m-%d")
 
 
-def print_weather():
+def print_current_weather():
     """
     building out the weather forecast.
     :return:
@@ -116,4 +116,4 @@ def print_weather():
           "Wind speed: {} MPH\n"
           "Wind direction: {}".format(current_temp, outside, wind_speed, wind_direction))
 
-print_weather()
+print_current_weather()
