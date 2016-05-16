@@ -29,6 +29,8 @@ original_user_input = input()
 
 if user_pick == 7:
     user_want_forecast = True
+else:
+    user_want_forecast = False
 
 
 def remove_spaces(user_data):
