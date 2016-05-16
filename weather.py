@@ -20,8 +20,15 @@ from misc_stuff import apis
 import re
 
 print("Welcome to our weather station.")
+print("Would you like the daily weather or a 7 day forecast?")
+print("Press 1 for daily or 7 for forecast")
+user_want_forecast = False
+user_pick = int(input())
 print("Please enter the city or zip code you would like to check the current temperatures for:")
 original_user_input = input()
+
+if user_pick == 7:
+    user_want_forecast = True
 
 
 def remove_spaces(user_data):
@@ -37,83 +44,88 @@ def remove_spaces(user_data):
 user_input = remove_spaces(original_user_input)
 
 
-def weather_url(user_entry):
+def weather_url(user_entry, daily_or_weekly):
     """
     Building out the url since this gets repeated a bit
     :param user_entry: This will either be a city name or zip code
+    :param daily_or_weekly: This will determine if the user wants a 1 day forecast or 7 days
     :return:
     """
-    url = "http://api.openweathermap.org/data/2.5/"
-    # for obvious reasons, the API key is stored in a separate file (tinydb)
+    daily_partial_url = "http://api.openweathermap.org/data/2.5/weather?"
+    forecast_partial_url = "http://api.openweathermap.org/data/2.5/forecast/daily?q="
+    # The API key is stored in a separate file using tiny db
     api_key = apis.open_weather()
-    zip_code_url = "weather?zip="
-    city_url = "weather?q="
+    zip_code_url = "zip="
+    city_url = "q="
+    number_forecast_days = "&cnt=7"
 
-    if user_entry.isdigit():
-        return "{}{}{}{}".format(url, zip_code_url, str(user_entry), api_key)
+    if user_entry.isdigit() and not daily_or_weekly:
+        return "{}{}{}{}".format(daily_partial_url, zip_code_url, str(user_entry), api_key)
+    elif not daily_or_weekly:
+        return "{}{}{}{}".format(daily_partial_url, city_url, str(user_entry), api_key)
     else:
-        return "{}{}{}{}".format(url, city_url, str(user_entry), api_key)
+        return "{}{}{}{}".format(forecast_partial_url, str(user_entry), number_forecast_days, api_key)
 
 
-def get_outside_outlook(weather_description):
+class WeatherConversion:
     """
-    Returning the outside weather description (e.g. overcast clouds)
-    :param weather_description: This should be a list with a dictionary inside it
-    :return:
+    building out the blueprint for the weather values.
     """
-    for entries in weather_description:
-        return entries["description"]
+    def __init__(self, full_url):
+        self.full_url = full_url
+
+    def print_weather(self):
+        """
+        This will use all the methods in the class to print out the relevant temperature information
+        :param self:
+        :return:
+        """
+        open_weather = urlopen(self.full_url).read().decode("utf8")
+        read_json = json.loads(open_weather)
+        outside = self.get_outside_outlook(read_json["weather"])
+        wind_speed = read_json["wind"]["speed"]
+        wind_direction = self.deg_to_compass(read_json["wind"]["deg"])
+        current_temp = self.convert_temp(read_json["main"]["temp"])
+
+        print("Current Temperature: {:.2f}\n"
+              "Sky: {}\n"
+              "Wind speed: {} MPH\n"
+              "Wind direction: {}".format(current_temp, outside, wind_speed, wind_direction))
+
+    def get_outside_outlook(self, weather_description):
+        """
+        Returning the outside weather description (e.g. overcast clouds)
+        :return:
+        """
+        for entries in weather_description:
+            return entries["description"]
+
+    def convert_temp(self, temperature):
+        """
+        Simple kelvin to fahrenheit conversion
+        :return:
+        """
+        return 1.8 * (temperature - 273) + 32
+
+    def deg_to_compass(self, num):
+        """
+        This will convert wind speed in degrees to the typical 'compass' directions
+        :return:
+        """
+        convert = int((num / 22.5) + .5)
+        compass = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE",
+                   "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
+        return compass[(convert % 16)]
+
+    def convert_date_time(self, dt):
+        """
+        Simple method to convert unix date/time to something more human
+        return:
+        """
+        return datetime.fromtimestamp(dt).strftime("%Y-%m-%d")
 
 
-def convert_temp(temperature):
-    """
-    Simple kelvin to fahrenheit conversion
-    :param temperature: passing in a kelvin temperature
-    :return:
-    """
-    return 1.8 * (temperature - 273) + 32
-
-
-def deg_to_compass(num):
-    """
-    This will convert wind speed in degrees to the typical 'compass' directions
-    :param num: This will be the degrees in which the wind is blowing
-    :return:
-    """
-    convert = int((num / 22.5) + .5)
-    compass = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE",
-               "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
-    return compass[(convert % 16)]
-
-
-def convert_date_time(dt):
-    """
-    Simple method to convert unix date/time to something more human
-    param: dt: stands for date / time in the JSON file I'm reading
-    return:
-    """
-    return datetime.fromtimestamp(dt).strftime("%Y-%m-%d")
-
-
-def print_current_weather():
-    """
-    building out the weather forecast.
-    :return:
-    """
-    weather = weather_url(user_input)
-    open_weather = urlopen(weather).read().decode("utf8")
-    read_json = json.loads(open_weather)
-    # print(json.dumps(read_json, indent=4, sort_keys=True))
-    outside = get_outside_outlook(read_json["weather"])
-    # min_temp = convert_temp(read_json["main"]["temp_min"])
-    # max_temp = convert_temp(read_json["main"]["temp_max"])
-    wind_speed = read_json["wind"]["speed"]
-    wind_direction = deg_to_compass(read_json["wind"]["deg"])
-    current_temp = convert_temp(read_json["main"]["temp"])
-
-    print("Current Temperature: {:.2f}\n"
-          "Sky: {}\n"
-          "Wind speed: {} MPH\n"
-          "Wind direction: {}".format(current_temp, outside, wind_speed, wind_direction))
-
-print_current_weather()
+full_weather_url = weather_url(user_input, user_want_forecast)
+# print(json.dumps(read_json, indent=4, sort_keys=True))
+values = WeatherConversion(full_weather_url)
+values.print_weather()
