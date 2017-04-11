@@ -29,8 +29,6 @@ original_user_input = input()
 
 if user_pick == 7:
     user_want_forecast = True
-else:
-    user_want_forecast = False
 
 
 def remove_spaces(user_data):
@@ -76,23 +74,38 @@ class WeatherConversion:
     def __init__(self, full_url):
         self.full_url = full_url
 
-    def print_weather(self):
+    def print_weather(self, days):
         """
         This will use all the methods in the class to print out the relevant temperature information
         :param self:
+        :param days: either 1 day forecast or a 7-day forecast
         :return:
         """
-        open_weather = urlopen(self.full_url).read().decode("utf8")
-        read_json = json.loads(open_weather)
-        outside = self.get_outside_outlook(read_json["weather"])
-        wind_speed = read_json["wind"]["speed"]
-        wind_direction = self.deg_to_compass(read_json["wind"]["deg"])
-        current_temp = self.convert_temp(read_json["main"]["temp"])
+        if days == 1:
+            open_weather = urlopen(self.full_url).read().decode("utf8")
+            read_json = json.loads(open_weather)
+            outside = self.get_outside_outlook(read_json["weather"])
+            wind_speed = read_json["wind"]["speed"]
+            wind_direction = self.deg_to_compass(read_json["wind"]["deg"])
+            current_temp = self.convert_temp(read_json["main"]["temp"])
+            print("Current Temperature: {:.2f}\xb0\n"
+                  "Sky: {}\n"
+                  "Wind speed: {} MPH\n"
+                  "Wind direction: {}".format(current_temp, outside, wind_speed, wind_direction))
+        else:
+            open_weather = urlopen(self.full_url).read().decode("utf8")
+            read_json = json.loads(open_weather)
+            outside = read_json["list"]
+            """
+            Should be:
+            for temp in outside:
+                stuff = temp["weather"]
+                for i in stuff:
+                    print(i['description'])
 
-        print("Current Temperature: {:.2f}\n"
-              "Sky: {}\n"
-              "Wind speed: {} MPH\n"
-              "Wind direction: {}".format(current_temp, outside, wind_speed, wind_direction))
+            Each of these will need to be added to a list or a dictionary to print relationally
+            """
+            print(outside)
 
     def get_outside_outlook(self, weather_description):
         """
@@ -130,4 +143,4 @@ class WeatherConversion:
 full_weather_url = weather_url(user_input, user_want_forecast)
 # print(json.dumps(read_json, indent=4, sort_keys=True))
 values = WeatherConversion(full_weather_url)
-values.print_weather()
+values.print_weather(1)
