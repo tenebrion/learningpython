@@ -77,7 +77,6 @@ for turn in range(10):
                     print("{}: {}".format(items, scores[items]))
             break
 
-
     if turn == 9:
         print("Your 10 games are over. The scores are:")
         for items in sorted(scores):

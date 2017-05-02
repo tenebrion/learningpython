@@ -6,4 +6,3 @@ def even_fib(limit):
         a, b = b, a + b
 
 print(sum(even_fib(4000000)))
-        

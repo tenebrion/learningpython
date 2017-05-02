@@ -63,14 +63,12 @@ for turn in range(4):
     
     while (guess_row < 0 or guess_row > 4) or (guess_col < 0 or guess_col > 4):
         print("Oops, that's not even in the ocean we're playing in...")
-        break  # found out I need to put a break here or else fear the wrath of an infinite loop!
-        # guess_row = int(input("Please guess a new Row (1-5):")) #this is the row the user guesses
-        # guess_col = int(input("Please guess a new Col (1-5):")) #this is the column the user guesses
+        break
     else:
         # checking to see if the user guesses the same stuff as the random ship
         if guess_row == ship_row and guess_col == ship_col:
             print("Congratulations! You sunk my battleship!")  # woo the user won!
-            break  # stop the infinite loops!
+            break
         else:
             # checking to see if the user already guessed this attempt
             if board[guess_row][guess_col] == "X":
