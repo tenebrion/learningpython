@@ -82,6 +82,9 @@ def get_class_average(students):
     return average(results)
 
 # this section is printing out results
-print(get_letter_grade(get_average(lloyd)))  # should return a B
-print(get_class_average(lloyd))  # should return ~89.
-print(get_letter_grade(score))  # should return B
+student_letter_grade = get_letter_grade(get_average(lloyd))
+class_average = get_class_average(lloyd)
+grade = get_letter_grade(student_letter_grade)
+print(student_letter_grade)  # should return a B
+print(class_average)  # should return ~89.
+print(grade)  # should return B

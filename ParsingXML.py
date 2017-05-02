@@ -1,9 +1,12 @@
 import xml.dom.minidom
 
-def main():
 
-	doc = xml.dom.minidom.parse("samplexml.xml");
-	
+def main():
+	"""
+	So many errors that make no sense. PEP 8 indention contains tabs
+	:return: 
+	"""
+	doc = xml.dom.minidom.parse("samplexml.xml")
 	print("Node Name: ",doc.firstChild.tagName)
 	
 	skills = doc.getElementsByTagName("skill")

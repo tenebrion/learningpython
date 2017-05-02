@@ -17,6 +17,6 @@ for x in range(999, 100, -1):
         if z > product:
             s = str(x * y)
             if s == s[::-1]:
-                 product = x * y
+                product = x * y
 
 print(product)

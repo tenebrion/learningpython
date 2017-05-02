@@ -1,4 +1,9 @@
 def even_fib(limit):
+    """
+    
+    :param limit: 
+    :return: 
+    """
     a, b = 0, 1
     while a < limit:
         if not a % 2:         

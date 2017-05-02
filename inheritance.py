@@ -8,7 +8,7 @@ Udacity to help understand how they apply to different classes.
 """
 
 
-class Parent():
+class Parent:
     """
     Creating a simple class called parent that contains most of the reusable features
     """
