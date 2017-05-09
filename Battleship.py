@@ -1,8 +1,10 @@
-'''
+"""
 Created on Feb 24, 2016
 
 @author: Michael Koegel / mkoegel@gmail.com
-'''
+"""
+from random import randint
+
 """
 To do: add multiple battle ships and make sure they don't overlap
        add random sized battle ships and make sure they don't overlap or go off the board
@@ -10,7 +12,6 @@ To do: add multiple battle ships and make sure they don't overlap
        make the game two player
        add rematches, game statistics
 """
-from random import randint
 
 board = []
 

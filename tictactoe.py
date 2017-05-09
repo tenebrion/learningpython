@@ -26,14 +26,16 @@ def check_winner():
     :return:
     """
     # mapping out possible win combinations
-    possible_wins = ((game_board["1"] == game_board["2"] == game_board["3"]),
+    possible_wins = (
+                     (game_board["1"] == game_board["2"] == game_board["3"]),
                      (game_board["4"] == game_board["5"] == game_board["6"]),
                      (game_board["7"] == game_board["8"] == game_board["9"]),
                      (game_board["1"] == game_board["4"] == game_board["7"]),
                      (game_board["2"] == game_board["5"] == game_board["8"]),
                      (game_board["3"] == game_board["6"] == game_board["9"]),
                      (game_board["1"] == game_board["5"] == game_board["9"]),
-                     (game_board["3"] == game_board["5"] == game_board["7"]))
+                     (game_board["3"] == game_board["5"] == game_board["7"])
+    )
 
     # If a line reads True, we have a winner.
     for row in possible_wins:
