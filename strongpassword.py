@@ -15,7 +15,13 @@ def strong_password(password):
     :param password: 
     :return: True / False
     """
-    complex_password_regex = re.compile(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*()-_+]).{8,}$')
+    complex_password_regex = re.compile(r'''(
+^(?=.*?[A-Z])           # Checks for uppercase letters
+(?=.*?[a-z])            # Checks for lowercase letters
+(?=.*?[0-9])            # Checks for a number
+(?=.*?[#?!@$%^&*()-_+]) # Checks for special characters
+.{8,}$                  # Checks to make sure the password is at least 8 characters long
+)''', re.VERBOSE)
 
     check_password = complex_password_regex.search(password)
     if check_password is None:
