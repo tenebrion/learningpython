@@ -14,9 +14,14 @@ def strip_string(content, parameter=None):
     :param parameter: 
     :return: 
     """
-    strip_spaces = re.compile(r'^\s+|\s+$')
-    clean_up = strip_spaces.findall(content)
-    good_to_go = strip_spaces.sub("", clean_up)
-    return good_to_go
+    if parameter is None:
+        strip_spaces = re.compile(r'^\s+|\s+$')
+        good_to_go = strip_spaces.sub('', content)
+        return good_to_go
+    else:
+        strip_stuff = re.compile(parameter)
+        finished_product = strip_stuff.sub('', content)
+        return finished_product
 
-print(strip_string(" Please fix this spacing issue "))
+remove_stuff = str('Spam')
+print(strip_string("SpamSpamBaconSpamEggsSpamSpam", remove_stuff))
