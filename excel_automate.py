@@ -7,6 +7,7 @@ wb = Workbook()
 
 # grab the active worksheet
 ws = wb.active
+ws.title = "Sheet1"  # trying to create the first sheet
 
 # filling in values based on the site. Starting with cell A1 - A7
 ws["A1"] = "4/5/2015 1:34:02 PM"
@@ -45,3 +46,11 @@ print(c.value)
 print("Row {}, Column {}, is {}".format(str(c.row), c.column, c.value))
 print("Cell {} is {}".format(c.coordinate, c.value))
 print(sheet["C1"].value)
+print("Selected cell: {}".format(sheet.cell(row=1, column=2)))
+print("Sheet1.B1 value: {}".format(sheet.cell(row=1, column=2).value))
+
+for i in range(1, 8, 2):
+    print(i, sheet.cell(row=i, column=2).value)
+
+print("Sheet Max Row: {}".format(sheet.max_row))
+print("Sheet Max Column: {}".format(sheet.max_column))

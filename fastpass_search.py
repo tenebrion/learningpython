@@ -1,46 +1,45 @@
 """
 Creating a program to log into the my disney experience site and check for fastpass tickets
 
-Following a guide located at: https://kazuar.github.io/scraping-tutorial/
+Future version: Check for fastpass tickets. If there are tickets I want, try to add them to
+my account. If there are issues, send a text message to me so I can login on my phone
+and add them to my account.
 """
-import requests
-from lxml import html
+from selenium import webdriver
+import time
 
+# Setting up User / Password so that it loads prior to the browser opening
 USERNAME = input("Enter user: ")
 PASSWORD = input("Enter password: ")
 
-LOGIN_URL = "https://disneyworld.disney.go.com/login/"
-URL = "https://disneyworld.disney.go.com/fastpass-plus/"
+# Loading Chrome and setting basic info.
+chrome_driver = r"C:\Users\michael.f.koegel\Documents\Python\chromedriver.exe"
+browser = webdriver.Chrome(chrome_driver)
+browser.get("https://disneyworld.disney.go.com/login/")
 
+# setting up the log on process (User / Pass)
+email_element = browser.find_element_by_id("loginPageUsername")
+email_element.send_keys(USERNAME)
+password_element = browser.find_element_by_id("loginPagePassword")
+password_element.send_keys(PASSWORD)
 
-def main():
-    """
-    
-    :return: 
-    """
-    session_requests = requests.session()
+# once the password is entered, we need to click on the Sign In button
+click_password_link = browser.find_element_by_id("loginPageSubmitButton")
+click_password_link.click()
 
-    # Get login csrf token
-    result = session_requests.get(LOGIN_URL)
-    tree = html.fromstring(result.text)
-    authenticity_token = list(set(tree.xpath("//input[@name='pep_csrf']/@value")))[0]
+# switching to the FastPass screen
+browser.get("https://disneyworld.disney.go.com/fastpass-plus/select-party/")
 
-    # Create payload
-    payload = {
-        "username": USERNAME,
-        "password": PASSWORD,
-        "pep_csrf": authenticity_token
-    }
+time.sleep(10)  # need to take a quick nap
+add_guests = browser.find_element_by_xpath("//span[.='Select All']")
+add_guests.click()
 
-    # Perform login
-    result = session_requests.post(LOGIN_URL, data=payload, headers=dict(referer=LOGIN_URL))
+click_next_fastpass = browser.find_element_by_xpath("//div[@class='button next primary']")
+click_next_fastpass.click()
 
-    # Scrape url
-    result = session_requests.get(URL, headers=dict(referer=URL))
-    tree = html.fromstring(result.content)
-    bucket_names = tree.xpath("//div[@class='repo-list--repo']/a/text()")
+time.sleep(5)
+next_month = browser.find_element_by_xpath("//div[@class='icon.next']/span")
+next_month.click()
 
-    print(bucket_names)
-
-if __name__ == '__main__':
-    main()
+next_month = browser.find_element_by_xpath("//span[.='29']")
+next_month.click()
