@@ -4,6 +4,8 @@ Creating a program to log into the my disney experience site and check for fastp
 Future version: Check for fastpass tickets. If there are tickets I want, try to add them to
 my account. If there are issues, send a text message to me so I can login on my phone
 and add them to my account.
+
+Also in a future version: functions
 """
 from selenium import webdriver
 import time
@@ -15,7 +17,7 @@ PASSWORD = input("Enter password: ")
 # Loading Chrome and setting basic info.
 chrome_driver = r"C:\Users\michael.f.koegel\Documents\Python\chromedriver.exe"
 browser = webdriver.Chrome(chrome_driver)
-browser.get("https://disneyworld.disney.go.com/login/")
+browser.get("https://disneyworld.disney.go.com/fastpass-plus/select-party/")
 
 # setting up the log on process (User / Pass)
 email_element = browser.find_element_by_id("loginPageUsername")
@@ -27,10 +29,7 @@ password_element.send_keys(PASSWORD)
 click_password_link = browser.find_element_by_id("loginPageSubmitButton")
 click_password_link.click()
 
-# switching to the FastPass screen
-browser.get("https://disneyworld.disney.go.com/fastpass-plus/select-party/")
-
-time.sleep(10)  # need to take a quick nap
+time.sleep(5)  # need to take a quick nap
 add_guests = browser.find_element_by_xpath("//span[.='Select All']")
 add_guests.click()
 
@@ -38,8 +37,10 @@ click_next_fastpass = browser.find_element_by_xpath("//div[@class='button next p
 click_next_fastpass.click()
 
 time.sleep(5)
-next_month = browser.find_element_by_xpath("//div[@class='icon.next']/span")
+next_month = browser.find_element_by_xpath("//span[@class='icon next']")
 next_month.click()
 
 next_month = browser.find_element_by_xpath("//span[.='29']")
 next_month.click()
+
+time.sleep(5)
