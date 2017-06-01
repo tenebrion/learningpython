@@ -28,6 +28,12 @@ site_date_format = "//span[.='{}']".format(month_ahead)
 USERNAME = input("Enter user: ")
 PASSWORD = input("Enter password: ")
 
+# various rides at each park I care about
+wak = {"navi": "Na'vi River Journey", "flight": "Avatar Flight of Passage"}
+wec = {"test": "Test Track", "frozen": "Frozen", "soaring": "Soaring"}
+wmk = {"space": "Space Mountain", "mines": "Seven Dwarfs Mine"}
+whs = {"tower": "Tower of Terror", "aerosmith": "Rock-n-Rollercoaster"}
+
 # Park URL's for fastpass selection (in XPATH format for web lookups)
 animal_kingdom = "//img[@src='https://secure.parksandresorts.wdpromedia.com/resize/mwImage/1/462/90/75/" \
                  "wdpromedia.disney.go.com/media/wdpro-assets/my-magic-plus/fastpass-plus/" \
@@ -48,7 +54,6 @@ magic_kingdom = "//img[@src='https://secure.parksandresorts.wdpromedia.com/resiz
 park_pick = None
 if len(sys.argv) >=1 :
     park_pick = str(sys.argv[1].lower())
-    print(park_pick)
 
 
 def park_selection(park):
@@ -67,28 +72,28 @@ def park_selection(park):
         return magic_kingdom
 
 
-def site_searches(element, value):
+def selenium_formatting(element, value):
     """
     
     :param element: 
     :param value: 
     :return: 
     """
-    # this method will take an element and combine it with a value
-    # the goal is to clean up the lines below
+    # this method will neatly format the selenium strings to make things cleaner
+    # need to figure out how to return these in a 'non-str' format
     if element == "xpath":
-        pass
+        return "browser.find_element_by_xpath('{}')".format(value)
     elif element == "css":
-        pass
+        return browser.find_element_by_css_selector(value)
     elif element == "id":
-        pass
+        return "browser.find.element_by_id('{}')".format(value)
     elif element == "class":
         pass
 
 # validating park selection
 the_park = park_selection(park_pick)
 
-# Loading Chrome and setting basic info.
+# Loading Chrome and navigating to the website
 chrome_driver = r"C:\Users\michael.f.koegel\Documents\Python\chromedriver.exe"
 browser = webdriver.Chrome(chrome_driver)
 browser.get("https://disneyworld.disney.go.com/fastpass-plus/select-party/")
@@ -104,13 +109,14 @@ click_password_link = browser.find_element_by_id("loginPageSubmitButton")
 click_password_link.click()
 
 time.sleep(5)  # need to take a quick nap
+
+# make sure we select all guests in my family
 add_guests = browser.find_element_by_xpath("//span[.='Select All']")
 add_guests.click()
-
 click_next_fastpass = browser.find_element_by_xpath("//div[@class='button next primary']")
 click_next_fastpass.click()
 
-# clicking the next month option
+# clicking the next month option so we are always 30 days ahead
 time.sleep(5)
 next_month = browser.find_element_by_css_selector("div.container.calendarContainer.ng-scope > "
                                                   "div > div > div.header > span.next-month")
@@ -120,6 +126,7 @@ next_month.click()
 next_month = browser.find_element_by_xpath(site_date_format)
 next_month.click()
 
+# selecting the park that was entered when the script was run
 time.sleep(5)
 select_park = browser.find_element_by_xpath(the_park)
 select_park.click()
