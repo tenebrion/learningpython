@@ -34,25 +34,42 @@ wec = {"test": "Test Track", "frozen": "Frozen", "soaring": "Soaring"}
 wmk = {"space": "Space Mountain", "mines": "Seven Dwarfs Mine"}
 whs = {"tower": "Tower of Terror", "aerosmith": "Rock-n-Rollercoaster"}
 
-# Park URL's for fastpass selection (in XPATH format for web lookups)
+# Park URL's for fastpass park selection and fastpass rides (in XPATH format for web lookups)
 animal_kingdom = "//img[@src='https://secure.parksandresorts.wdpromedia.com/resize/mwImage/1/462/90/75/" \
                  "wdpromedia.disney.go.com/media/wdpro-assets/my-magic-plus/fastpass-plus/" \
                  "vignettes/Vignette_Animal_Kingdom_4000x800-2.png?29032016145623']"
+
+wak_navi = "//img[@src='https://secure.parksandresorts.wdpromedia.com/resize/mwImage/1/170/96/75/" \
+          "wdpromedia.disney.go.com/media/wdpro-assets/parks-and-tickets/attractions/animal-kingdom/" \
+          "navi-river-journey/pandora-navi-river-journey-full-boat-16x9.jpg?28042017120328']"
+
+wak_flight = "//img[@src='https://secure.parksandresorts.wdpromedia.com/resize/mwImage/1/170/96/75/" \
+             "wdpromedia.disney.go.com/media/wdpro-assets/parks-and-tickets/attractions/animal-kingdom/" \
+             "flight-of-passage/pandora-flight-of-passage-stills-wide-16x9.jpg?13032017113748']"
 
 epcot = "//img[@src='https://secure.parksandresorts.wdpromedia.com/resize/mwImage/1/462/90/75/" \
         "wdpromedia.disney.go.com/media/wdpro-assets/my-magic-plus/fastpass-plus/" \
         "vignettes/Vignette_Epcot_4000x800-2.png?29032016145806']"
 
+wec_test = ""
+wec_frozen = ""
+
 hollywood_studios = "//img[@src='https://secure.parksandresorts.wdpromedia.com/resize/mwImage/1/462/90/75/" \
                     "wdpromedia.disney.go.com/media/wdpro-assets//my-magic-plus/fastpass-plus/" \
                     "vignettes/Vignette_HollywoodStudios_4000x800-2.png?29032016150408']"
+
+whs_tower = ""
+whs_aerosmith = ""
 
 magic_kingdom = "//img[@src='https://secure.parksandresorts.wdpromedia.com/resize/mwImage/1/462/90/75/" \
                 "wdpromedia.disney.go.com/media/wdpro-assets/my-magic-plus/fastpass-plus/" \
                 "vignettes/Vignette_Magic_Kingdom_4000x800-2.png?29032016150619']"
 
+wmk_space = ""
+wmk_mines = ""
+
 park_pick = None
-if len(sys.argv) >=1 :
+if len(sys.argv) >= 1:
     park_pick = str(sys.argv[1].lower())
 
 
@@ -63,35 +80,37 @@ def park_selection(park):
     :return: 
     """
     if park == "animal":
-        return animal_kingdom
+        return [animal_kingdom, wak]
     elif park == "epcot":
-        return epcot
+        return [epcot, wec]
     elif park == "hollywood":
-        return hollywood_studios
+        return [hollywood_studios, whs]
     elif park == "magic":
-        return magic_kingdom
+        return [magic_kingdom, wmk]
 
 
-def selenium_formatting(element, value):
+def selenium_formatting(element, search):
     """
     
     :param element: 
-    :param value: 
+    :param search: 
     :return: 
     """
     # this method will neatly format the selenium strings to make things cleaner
     # need to figure out how to return these in a 'non-str' format
     if element == "xpath":
-        return "browser.find_element_by_xpath('{}')".format(value)
+        return "browser.find_element_by_xpath('{}')".format(search)
     elif element == "css":
-        return browser.find_element_by_css_selector(value)
+        return browser.find_element_by_css_selector(search)
     elif element == "id":
-        return "browser.find.element_by_id('{}')".format(value)
+        return "browser.find.element_by_id('{}')".format(search)
     elif element == "class":
         pass
 
 # validating park selection
-the_park = park_selection(park_pick)
+user_selection = park_selection(park_pick)
+the_park = user_selection[0]
+rides = user_selection[1]
 
 # Loading Chrome and navigating to the website
 chrome_driver = r"C:\Users\michael.f.koegel\Documents\Python\chromedriver.exe"
@@ -130,3 +149,7 @@ next_month.click()
 time.sleep(5)
 select_park = browser.find_element_by_xpath(the_park)
 select_park.click()
+
+# this will search available attractions for the rides I want at the parks I pick
+for key, value in rides.items():
+    print("{}: {}".format(key, value))
