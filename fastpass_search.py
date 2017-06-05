@@ -28,20 +28,14 @@ site_date_format = "//span[.='{}']".format(month_ahead)
 USERNAME = input("Enter user: ")
 PASSWORD = input("Enter password: ")
 
-# various rides at each park I care about
-wak = {"navi": "Na'vi River Journey", "flight": "Avatar Flight of Passage"}
-wec = {"test": "Test Track", "frozen": "Frozen", "soaring": "Soaring"}
-wmk = {"space": "Space Mountain", "mines": "Seven Dwarfs Mine"}
-whs = {"tower": "Tower of Terror", "aerosmith": "Rock-n-Rollercoaster"}
-
 # Park URL's for fastpass park selection and fastpass rides (in XPATH format for web lookups)
 animal_kingdom = "//img[@src='https://secure.parksandresorts.wdpromedia.com/resize/mwImage/1/462/90/75/" \
                  "wdpromedia.disney.go.com/media/wdpro-assets/my-magic-plus/fastpass-plus/" \
                  "vignettes/Vignette_Animal_Kingdom_4000x800-2.png?29032016145623']"
 
 wak_navi = "//img[@src='https://secure.parksandresorts.wdpromedia.com/resize/mwImage/1/170/96/75/" \
-          "wdpromedia.disney.go.com/media/wdpro-assets/parks-and-tickets/attractions/animal-kingdom/" \
-          "navi-river-journey/pandora-navi-river-journey-full-boat-16x9.jpg?28042017120328']"
+           "wdpromedia.disney.go.com/media/wdpro-assets/parks-and-tickets/attractions/animal-kingdom/" \
+           "navi-river-journey/pandora-navi-river-journey-full-boat-16x9.jpg?28042017120328']"
 
 wak_flight = "//img[@src='https://secure.parksandresorts.wdpromedia.com/resize/mwImage/1/170/96/75/" \
              "wdpromedia.disney.go.com/media/wdpro-assets/parks-and-tickets/attractions/animal-kingdom/" \
@@ -53,6 +47,7 @@ epcot = "//img[@src='https://secure.parksandresorts.wdpromedia.com/resize/mwImag
 
 wec_test = ""
 wec_frozen = ""
+wec_soaring = ""
 
 hollywood_studios = "//img[@src='https://secure.parksandresorts.wdpromedia.com/resize/mwImage/1/462/90/75/" \
                     "wdpromedia.disney.go.com/media/wdpro-assets//my-magic-plus/fastpass-plus/" \
@@ -67,6 +62,12 @@ magic_kingdom = "//img[@src='https://secure.parksandresorts.wdpromedia.com/resiz
 
 wmk_space = ""
 wmk_mines = ""
+
+# various rides at each park I care about
+wak = {"navi": wak_navi, "flight": wak_flight}
+wec = {"test": wec_test, "frozen": wec_frozen, "soaring": wec_soaring}
+whs = {"tower": whs_tower, "aerosmith": whs_aerosmith}
+wmk = {"space": wmk_space, "mines": wmk_mines}
 
 park_pick = None
 if len(sys.argv) >= 1:
@@ -116,7 +117,6 @@ rides = user_selection[1]
 chrome_driver = r"C:\Users\michael.f.koegel\Documents\Python\chromedriver.exe"
 browser = webdriver.Chrome(chrome_driver)
 browser.get("https://disneyworld.disney.go.com/fastpass-plus/select-party/")
-
 # setting up the log on process (User / Pass)
 email_element = browser.find_element_by_id("loginPageUsername")
 email_element.send_keys(USERNAME)
@@ -136,7 +136,7 @@ click_next_fastpass = browser.find_element_by_xpath("//div[@class='button next p
 click_next_fastpass.click()
 
 # clicking the next month option so we are always 30 days ahead
-time.sleep(5)
+browser.implicitly_wait(5)  # 5 second wait
 next_month = browser.find_element_by_css_selector("div.container.calendarContainer.ng-scope > "
                                                   "div > div > div.header > span.next-month")
 next_month.click()
@@ -146,10 +146,17 @@ next_month = browser.find_element_by_xpath(site_date_format)
 next_month.click()
 
 # selecting the park that was entered when the script was run
-time.sleep(5)
+browser.implicitly_wait(5)  # 5 second wait
 select_park = browser.find_element_by_xpath(the_park)
 select_park.click()
 
 # this will search available attractions for the rides I want at the parks I pick
 for key, value in rides.items():
-    print("{}: {}".format(key, value))
+    # need to loop through each ride and search for available options
+    for attraction in key:
+        try:
+            browser.implicitly_wait(5)
+            attraction_search = browser.find_element_by_xpath(value)
+            attraction_search.click()
+        except:
+            browser.back()
